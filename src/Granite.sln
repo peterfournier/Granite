@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DAE7FBCD-2C66-4EB6-AFF3-84231E93C7E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Granite", "Granite\Granite.csproj", "{11D2CE26-2AFA-4EE1-A86E-D882D717D645}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Granite", "src\Granite\Granite.csproj", "{11D2CE26-2AFA-4EE1-A86E-D882D717D645}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Granite.EntityFrameworkCore", "src\Granite.EntityFrameworkCore\Granite.EntityFrameworkCore.csproj", "{150A0666-E404-46A8-9813-BF31868EF168}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Granite.EntityFrameworkCore", "Granite.EntityFrameworkCore\Granite.EntityFrameworkCore.csproj", "{150A0666-E404-46A8-9813-BF31868EF168}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
