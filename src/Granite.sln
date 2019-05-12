@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Granite", "Granite\Granite.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Granite.EntityFrameworkCore", "Granite.EntityFrameworkCore\Granite.EntityFrameworkCore.csproj", "{150A0666-E404-46A8-9813-BF31868EF168}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{DC0B877D-EC38-4FB2-BE7E-530032E0A380}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Users\peter\Pictures\Granite-pictures\granite-128.png = ..\..\..\Users\peter\Pictures\Granite-pictures\granite-128.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,10 +29,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{11D2CE26-2AFA-4EE1-A86E-D882D717D645} = {DAE7FBCD-2C66-4EB6-AFF3-84231E93C7E4}
-		{150A0666-E404-46A8-9813-BF31868EF168} = {DAE7FBCD-2C66-4EB6-AFF3-84231E93C7E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2EECD537-6639-432F-94E7-48191B5599B4}
