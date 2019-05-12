@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Granite.EntityFrameworkCore
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{047E7A68-161C-4D90-A1E9-5B88338A67B0}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\Users\peter\Pictures\Granite-pictures\granite-128.png = ..\..\..\Users\peter\Pictures\Granite-pictures\granite-128.png
+		..\..\..\Users\peter\Pictures\Granite-pictures\granite-64.png = ..\..\..\Users\peter\Pictures\Granite-pictures\granite-64.png
 	EndProjectSection
 EndProject
 Global
