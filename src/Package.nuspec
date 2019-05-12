@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Package</id>
+    <id>Granite</id>
     <version>1.0.0</version>
-    <authors>peter</authors>
-    <owners>peter</owners>
-    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
-    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <authors>peter fournier</authors>
+    <owners>peter fournier</owners>
+    <licenseUrl>https://github.com/peterfournier/Granite/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/peterfournier/Granite</projectUrl>
     <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Package description</description>
