@@ -1,13 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Granite.Models;
-using System.Reflection;
-using System.Linq.Expressions;
+﻿using Granite.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-
-// https://stackoverflow.com/questions/7207048/passing-multiple-include-statements-into-a-repository
+using System.Linq.Expressions;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using System;
 
 namespace Granite.EntityFrameworkCore
 {
