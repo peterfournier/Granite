@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Granite
+namespace GraniteCore
 {
     public abstract class BaseModel<TPrimaryKey, TUserPrimaryKey> : IBaseEntity<TPrimaryKey, TUserPrimaryKey>
     {

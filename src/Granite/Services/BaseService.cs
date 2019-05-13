@@ -2,9 +2,8 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Granite.Models;
 
-namespace Granite
+namespace GraniteCore
 {
     public abstract class BaseService<TDtoModel, TEntity, TPrimaryKey, TUserID> : IBaseService<TDtoModel, TEntity, TPrimaryKey, TUserID>
         where TDtoModel : class, IUserBasedDto<TPrimaryKey,TUserID>, new()

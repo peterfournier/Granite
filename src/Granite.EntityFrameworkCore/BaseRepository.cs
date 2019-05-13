@@ -1,4 +1,4 @@
-﻿using Granite.Models;
+﻿using GraniteCore;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System;
 
-namespace Granite.EntityFrameworkCore
+namespace GraniteCore.EntityFrameworkCore
 {
     public class BaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserID> : IBaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserID>
         where TDtoModel : class, IUserBasedDto<TPrimaryKey, TUserID>, new()

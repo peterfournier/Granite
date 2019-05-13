@@ -1,7 +1,4 @@
-﻿using Granite.Models;
-using System;
-
-namespace Granite
+﻿namespace GraniteCore
 {
     public interface IBaseApplicationUser<TPrimaryKey> : IBaseIdentityModel<TPrimaryKey>
     {        

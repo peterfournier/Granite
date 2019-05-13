@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Granite
+﻿namespace GraniteCore
 {
     public static class Bootstrap
     {

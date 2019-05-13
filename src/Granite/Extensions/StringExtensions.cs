@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Granite
+namespace GraniteCore
 {
     public static class StringExtensions
     {

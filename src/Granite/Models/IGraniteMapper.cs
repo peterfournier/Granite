@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
-namespace Granite
+namespace GraniteCore
 {
     public interface IGraniteMapper
     {

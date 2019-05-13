@@ -1,4 +1,4 @@
-﻿namespace Granite.Models
+﻿namespace GraniteCore
 {
     public interface IBaseIdentityModel<TPrimaryKey>
     {

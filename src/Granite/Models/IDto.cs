@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Granite.Models
+﻿namespace GraniteCore
 {
     public interface IUserBasedDto<TPrimaryKey, TUserPrimaryKey> : IUserBasedModel<TPrimaryKey, TUserPrimaryKey>
     {

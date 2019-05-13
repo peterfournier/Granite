@@ -1,4 +1,4 @@
-﻿namespace Granite
+﻿namespace GraniteCore
 {
 
     public abstract class BaseApplicationUser<TPrimaryKey> : IBaseApplicationUser<TPrimaryKey>

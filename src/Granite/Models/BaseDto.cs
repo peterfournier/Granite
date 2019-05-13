@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Granite.Models
+namespace GraniteCore
 {
     public abstract class BaseDto<TPrimaryKey, TUserPrimaryKey> : IUserBasedDto<TPrimaryKey, TUserPrimaryKey>
     {

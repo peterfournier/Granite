@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Granite.Models
+namespace GraniteCore
 {
     public interface IUserBasedModel<TPrimaryKey, TUserPrimaryKey> : IBaseIdentityModel<TPrimaryKey>
     {
