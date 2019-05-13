@@ -7,7 +7,7 @@
     <owners>peter fournier</owners>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/peterfournier/Granite</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/peterfournier/Granite/master/src/Resources/granitecore-64.png?token=AIRQLXMB2IITY4T2UWIEBGK43H7KY</iconUrl>
+    <iconUrl>https://i.imgur.com/cpyW4fw.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>ASP.NET Core MVC boilerplate and middle tier framework</description>
     <releaseNotes>Initial release. BaseModels and Respository Layer added</releaseNotes>
