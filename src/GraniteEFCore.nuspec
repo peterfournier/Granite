@@ -7,7 +7,7 @@
     <owners>peter fournier</owners>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/peterfournier/Granite</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/peterfournier/Granite/master/src/Resources/granite-efcore-64.png?token=AIRQLXM4363CI6Y4DP4JGOS43C2WG</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/peterfournier/Granite/master/src/Resources/granite-efcore-64.png?token=AIRQLXPJUM77MISMZUO4SY243C3GS</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>EntityFrameworkCore support for Granite</description>
     <releaseNotes>Initial release. BaseRepository and bootstrap</releaseNotes>
