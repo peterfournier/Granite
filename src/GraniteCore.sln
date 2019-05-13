@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraniteCore", "Granite\GraniteCore.csproj", "{11D2CE26-2AFA-4EE1-A86E-D882D717D645}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraniteCore", "GraniteCore\GraniteCore.csproj", "{11D2CE26-2AFA-4EE1-A86E-D882D717D645}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraniteCore.EntityFrameworkCore", "Granite.EntityFrameworkCore\GraniteCore.EntityFrameworkCore.csproj", "{150A0666-E404-46A8-9813-BF31868EF168}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraniteCore.EntityFrameworkCore", "GraniteCore.EntityFrameworkCore\GraniteCore.EntityFrameworkCore.csproj", "{150A0666-E404-46A8-9813-BF31868EF168}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{047E7A68-161C-4D90-A1E9-5B88338A67B0}"
 	ProjectSection(SolutionItems) = preProject

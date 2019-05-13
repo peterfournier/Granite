@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Granite\GraniteCore.csproj" />
+    <ProjectReference Include="..\GraniteCore\GraniteCore.csproj" />
   </ItemGroup>
 
 </Project>
