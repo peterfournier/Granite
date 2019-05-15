@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>GraniteCore.AutoMapper</id>
+    <version>1.0.0</version>
+    <authors>peter fournier</authors>
+    <owners>peter fournier</owners>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/peterfournier/Granite</projectUrl>
+    <iconUrl>https://i.imgur.com/zfsAbQE.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>AutoMapper support for GraniteCore</description>
+    <releaseNotes>Initial release. BaseRepository and bootstrap</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>.NETCore AspNetCore MVC boilerplate AutoMapper</tags>
+    <dependencies>
+	  <dependency id="AutoMapper" version="8.1.0" />
+	  <dependency id="GraniteCore" version="1.0.0" />
+      <dependency id="NETStandard.Library" version="2.0.3" />
+	  <dependency id="Microsoft.EntityFrameworkCore" version="2.2.4" />
+    </dependencies>
+  </metadata>
+  
+  <files>
+	<file src="GraniteCore.AutoMapper\bin\Release\netstandard2.0\GraniteCore.AutoMapper.dll" target="lib\netstandard2.0\GraniteCore.AutoMapper.dll" />
+  </files>
+</package>
