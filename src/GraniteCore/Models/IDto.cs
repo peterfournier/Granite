@@ -1,6 +1,6 @@
 ﻿namespace GraniteCore
 {
-    public interface IUserBasedDto<TPrimaryKey, TUserPrimaryKey> : IUserBasedModel<TPrimaryKey, TUserPrimaryKey>
+    public interface IDto<TPrimaryKey> : IBaseIdentityModel<TPrimaryKey>
     {
 
     }

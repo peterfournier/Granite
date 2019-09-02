@@ -9,15 +9,15 @@ using System;
 
 namespace GraniteCore.EntityFrameworkCore
 {
-    public class BaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserID> : IBaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserID>
-        where TDtoModel : class, IUserBasedDto<TPrimaryKey, TUserID>, new()
-        where TEntity : class, IBaseEntity<TPrimaryKey, TUserID>, new()
+    public class BaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> : IBaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey>
+        where TDtoModel : class, IDto<TPrimaryKey>, new()
+        where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
     {
-        private List<Expression<Func<TEntity, object>>> defaultIncludes = new List<Expression<Func<TEntity, object>>>
-        {
-            (TEntity entity) => entity.CreatedByUser,
-            (TEntity entity) => entity.LastModifiedByUser
-        };
+        //private List<Expression<Func<TEntity, object>>> defaultIncludes = new List<Expression<Func<TEntity, object>>>
+        //{
+        //    (TEntity entity) => entity.CreatedByUser,
+        //    (TEntity entity) => entity.LastModifiedByUser
+        //};
 
         protected readonly DbContext _dbContext;
         protected readonly IGraniteMapper _mapper;
@@ -34,11 +34,17 @@ namespace GraniteCore.EntityFrameworkCore
         #region Public CRUD methods
         public virtual IQueryable<TDtoModel> GetAll()
         {
-            var set = _dbContext.Set<TEntity>()
-                            .Include(x => x.CreatedByUser)
-                            .Include(x => x.LastModifiedByUser)
+            var set = _dbContext.Set<TEntity>()                            
                             .AsNoTracking()
                             ;
+
+            if (set is IQueryable<IUserBasedModel<TPrimaryKey, TUserPrimaryKey>> userBaseSet)
+            {
+                userBaseSet = userBaseSet.Include(x => x.CreatedByUser)
+                                         .Include(x => x.LastModifiedByUser);
+
+                return _mapper.Map<IUserBasedModel<TPrimaryKey, TUserPrimaryKey>, TDtoModel>(userBaseSet);
+            }
 
             return _mapper.Map<TEntity, TDtoModel>(set);
         }
@@ -60,7 +66,7 @@ namespace GraniteCore.EntityFrameworkCore
             return _mapper.Map<TEntity, TDtoModel>(entity);
         }
 
-        public virtual async Task<TDtoModel> Create(TDtoModel dtoModel, TUserID userID)
+        public virtual async Task<TDtoModel> Create(TDtoModel dtoModel, TUserPrimaryKey userID)
         {
             if (userID == null)
                 throw new ArgumentException("CreatedBy is not set");
@@ -72,11 +78,17 @@ namespace GraniteCore.EntityFrameworkCore
 
             _mapper.Map(dtoModel, entity);
 
-            setCreatedFields(dtoModel, userID);
-            setCreatedFields(entity, userID);
+            if (dtoModel is IUserBasedDto<TPrimaryKey, TUserPrimaryKey> userBasedtoUpdated)
+            {
+                setCreatedFields(userBasedtoUpdated, userID);
+                setLastUpdatedFields(userBasedtoUpdated, userID);
+            }
 
-            setLastUpdatedFields(dtoModel, userID);
-            setLastUpdatedFields(entity, userID);
+            if (entity is IUserBasedModel<TPrimaryKey, TUserPrimaryKey> userBaseEntity)
+            {
+                setCreatedFields(userBaseEntity, userID);
+                setLastUpdatedFields(userBaseEntity, userID);
+            }
 
             await _dbContext.Set<TEntity>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
@@ -86,11 +98,12 @@ namespace GraniteCore.EntityFrameworkCore
             return dtoModel;
         }
 
-        public virtual async Task Update(TPrimaryKey id, TDtoModel dtoUpdated, TUserID userID)
+        public virtual async Task Update(TPrimaryKey id, TDtoModel dtoUpdated, TUserPrimaryKey userID)
         {
             var entity = await setEntityFieldsFromDto(dtoUpdated);
 
-            setLastUpdatedFields(dtoUpdated, userID);
+            if (dtoUpdated is IUserBasedDto<TPrimaryKey, TUserPrimaryKey> userBasedtoUpdated)
+                setLastUpdatedFields(userBasedtoUpdated, userID);
 
             ignoreFieldsWhenUpdating(entity);
 
@@ -98,14 +111,15 @@ namespace GraniteCore.EntityFrameworkCore
             await _dbContext.SaveChangesAsync();
         }
 
-        public virtual async Task Delete(TPrimaryKey id, TUserID userID)
+        public virtual async Task Delete(TPrimaryKey id, TUserPrimaryKey userID)
         {
             var entity = await getByID(id);
             if (entity == null)
                 throw new ArgumentException("Could not find entity");
 
             // todo: changed to a soft delete.
-            setLastUpdatedFields(entity, userID);
+            if (entity is IUserBasedModel<TPrimaryKey, TUserPrimaryKey> userBaseEntity)
+                setLastUpdatedFields(userBaseEntity, userID);
 
             _dbContext.Set<TEntity>().Remove(entity);
             await _dbContext.SaveChangesAsync();
@@ -115,30 +129,36 @@ namespace GraniteCore.EntityFrameworkCore
 
 
         #region Private methods
-        private async Task<TEntity> getByID(
+        private Task<TEntity> getByID(
             TPrimaryKey id,
             params Expression<Func<TEntity, object>>[] includeProperties
             )
         {
-            if (includeProperties.Any())
+            return Task.Run<TEntity>(() =>
             {
-                var set = includeProperties
-                  .Aggregate<Expression<Func<TEntity, object>>, IQueryable<TEntity>>
-                    (_dbContext.Set<TEntity>(), (current, expression) => current.Include(expression));
+                if (includeProperties.Any())
+                {
+                    var set = includeProperties
+                      .Aggregate<Expression<Func<TEntity, object>>, IQueryable<TEntity>>
+                        (_dbContext.Set<TEntity>(), (current, expression) => current.Include(expression));
 
-                return set.SingleOrDefault(s => s.ID.Equals(id));
-            }
+                    return set.SingleOrDefault(s => s.ID.Equals(id));
+                }
 
-            return _dbContext.Set<TEntity>().Find(id);
+                return _dbContext.Set<TEntity>().Find(id);
+            });
         }
 
         private void ignoreFieldsWhenUpdating(TEntity entity)
         {
-            _dbContext.Entry(entity).Property(x => x.CreatedByUserID).IsModified = false;
-            _dbContext.Entry(entity).Property(x => x.CreatedDatetime).IsModified = false;
+            if (entity is IUserBasedModel<TPrimaryKey, TUserPrimaryKey> userBaseEntity)
+            {
+                _dbContext.Entry(userBaseEntity).Property(x => x.CreatedByUserID).IsModified = false;
+                _dbContext.Entry(userBaseEntity).Property(x => x.CreatedDatetime).IsModified = false;
+            }
         }
 
-        private void setCreatedFields(IUserBasedModel<TPrimaryKey, TUserID> model, TUserID userID)
+        private void setCreatedFields(IUserBasedModel<TPrimaryKey, TUserPrimaryKey> model, TUserPrimaryKey userID)
         {
             if (model == null)
                 throw new ArgumentNullException("model is not set");
@@ -146,13 +166,11 @@ namespace GraniteCore.EntityFrameworkCore
             if (userID == null)
                 throw new ArgumentNullException("userID is not set");
 
-            model.CreatedDatetime = DateTime.UtcNow;
-
-            if (model is IBaseEntity<TPrimaryKey, TUserID> baseEntity)
-                baseEntity.CreatedByUserID = userID;
+            model.CreatedDatetime = DateTime.UtcNow;            
+            model.CreatedByUserID = userID;
         }
 
-        private void setLastUpdatedFields(IUserBasedModel<TPrimaryKey, TUserID> model, TUserID userID)
+        private void setLastUpdatedFields(IUserBasedModel<TPrimaryKey, TUserPrimaryKey> model, TUserPrimaryKey userID)
         {
             if (model == null)
                 throw new ArgumentNullException("model is not set");
@@ -162,8 +180,7 @@ namespace GraniteCore.EntityFrameworkCore
 
             model.LastModifiedDatetime = DateTime.UtcNow;
 
-            if (model is IBaseEntity<TPrimaryKey, TUserID> baseEntity)
-                baseEntity.LastModifiedByUserID = userID;
+            model.LastModifiedByUserID = userID;
         }
 
         private async Task<TEntity> setEntityFieldsFromDto(TDtoModel dtoUpdated)

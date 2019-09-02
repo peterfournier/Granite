@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 namespace GraniteCore
 {
     public interface IBaseRepository<TDtoModel, TEntity ,TPrimaryKey, TUserID>
-        where TDtoModel : class, IUserBasedDto<TPrimaryKey, TUserID>, new()
-        where TEntity : class, IBaseEntity<TPrimaryKey, TUserID>, new()
+        where TDtoModel : class, IDto<TPrimaryKey>, new()
+        where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
     {
         IQueryable<TDtoModel> GetAll();
         Task<TDtoModel> Create(TDtoModel entity, TUserID userId);
