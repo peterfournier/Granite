@@ -1,12 +1,26 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AutoMapper;
+using AutoMapper.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace GraniteCore.AutoMapper
 {
     public static class Bootstrap
     {
-        public static void AddGraniteAutoMapper(this IServiceCollection services)
+        public static void AddGraniteAutoMapper(
+            this IServiceCollection services,
+            Action<IMapperConfigurationExpression> config)
         {
-            services.AddSingleton<IGraniteMapper, GraniteMapper>();
+            var graniteCoreMapper = new GraniteCoreMapper(config);
+            services.AddSingleton(typeof(IGraniteMapper), graniteCoreMapper);
+        }
+        public static void AddGraniteAutoMapper(
+            this IServiceCollection services,
+            MapperConfigurationExpression config
+            )
+        {
+            var graniteCoreMapper = new GraniteCoreMapper(config);
+            services.AddSingleton(typeof(IGraniteMapper), graniteCoreMapper);
         }
     }
 }

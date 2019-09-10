@@ -1,14 +1,20 @@
 ﻿using AutoMapper;
+using AutoMapper.Configuration;
 using AutoMapper.QueryableExtensions;
+using System;
 using System.Linq;
 
 namespace GraniteCore.AutoMapper
 {
-    public class GraniteMapper : IGraniteMapper
+    public class GraniteCoreMapper : IGraniteMapper
     {
-        public GraniteMapper()
+        public GraniteCoreMapper(Action<IMapperConfigurationExpression> config)
         {
-
+            Mapper.Initialize(config);
+        }
+        public GraniteCoreMapper(MapperConfigurationExpression config)
+        {
+            Mapper.Initialize(config);
         }
 
         public virtual TDestination Map<TSource, TDestination>(TSource source)

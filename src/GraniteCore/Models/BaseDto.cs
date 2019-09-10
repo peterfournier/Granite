@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace GraniteCore
+﻿namespace GraniteCore
 {
-    public abstract class BaseDto<TPrimaryKey> : IBaseIdentityModel<TPrimaryKey>
+    public abstract class BaseDto<TPrimaryKey> : IDto<TPrimaryKey>
     {
         public TPrimaryKey ID { get; set; }
 

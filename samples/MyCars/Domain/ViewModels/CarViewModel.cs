@@ -1,9 +1,11 @@
 ﻿using System;
-using GraniteCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace MyCars.Domain.Models
+namespace MyCars.Domain.ViewModels
 {
-    public class CarEntity : BaseModel<Guid>
+    public class CarViewModel
     {
         public int Year { get; set; }
         public string ColorHex { get; set; }

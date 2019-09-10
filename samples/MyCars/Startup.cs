@@ -15,6 +15,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using GraniteCore.EntityFrameworkCore;
 using GraniteCore.AutoMapper;
+using MyCars.Services;
+using GraniteCore;
+using AutoMapper;
+using MyCars.Domain.DTOs;
+using MyCars.Domain.ViewModels;
+using MyCars.Domain.Models;
 
 namespace MyCars
 {
@@ -46,9 +52,15 @@ namespace MyCars
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            // GraniteCore install
             services.AddGraniteEntityFrameworkCore();
-            services.AddGraniteAutoMapper();
-
+            services.AddGraniteAutoMapper(config =>
+            {
+                config.CreateCarMapping();
+            });
+            services.AddScoped<ICarService, CarService>();
+            // Change singleton to scoped in production
+            services.AddSingleton(typeof(IBaseRepository<,,,>), typeof(MockRepository<,,,>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,6 +90,24 @@ namespace MyCars
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        
+    }
+
+
+    // normally this would be in different folder
+    internal static class MapperExtensions
+    {
+        public static void CreateCarMapping(this IMapperConfigurationExpression config)
+        {
+            config.CreateMap<CarViewModel, CarDTO>()
+                    .ReverseMap()
+                    ;
+
+            config.CreateMap<CarDTO, CarEntity>()
+                    .ReverseMap()
+                    ;
         }
     }
 }

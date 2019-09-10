@@ -8,9 +8,6 @@
 
 
   <ItemGroup>
-    <PackageReference Include="GraniteCore" Version="1.0.0" />
-    <PackageReference Include="GraniteCore.AutoMapper" Version="1.0.0" />
-    <PackageReference Include="GraniteCore.EntityFrameworkCore" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
@@ -18,7 +15,9 @@
 
 
   <ItemGroup>
-    <Folder Include="Domain\ViewModels\" />
+    <ProjectReference Include="..\..\src\GraniteCore.Automapper\GraniteCore.AutoMapper.csproj" />
+    <ProjectReference Include="..\..\src\GraniteCore.EntityFrameworkCore\GraniteCore.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\src\GraniteCore\GraniteCore.csproj" />
   </ItemGroup>
 
 </Project>

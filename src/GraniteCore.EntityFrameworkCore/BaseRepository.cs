@@ -134,7 +134,7 @@ namespace GraniteCore.EntityFrameworkCore
             params Expression<Func<TEntity, object>>[] includeProperties
             )
         {
-            return Task.Run<TEntity>(() =>
+            return Task.Run(() =>
             {
                 if (includeProperties.Any())
                 {
