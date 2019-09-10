@@ -4,6 +4,16 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Version>2.0.0-alpha</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/peterfournier/Granite</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/peterfournier/Granite</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/peterfournier/Granite/blob/master/LICENSE</PackageLicenseUrl>
+    <Company>Software Vets, Inc</Company>
+    <Authors>Peter Fournier</Authors>
+    <PackageIconUrl>https://i.imgur.com/Z4BjwEL.png</PackageIconUrl>
+    <Copyright>Copyright 2019</Copyright>
+    <PackageTags>.NETCore AspNetCore MVC boilerplate AutoMapper</PackageTags>
+    <PackageReleaseNotes>2nd release alpha. Automapper initialize function exposed through the constructor.</PackageReleaseNotes>
+    <Description>AutoMapper support for GraniteCore</Description>
   </PropertyGroup>
 
   <ItemGroup>

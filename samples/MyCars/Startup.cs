@@ -59,8 +59,11 @@ namespace MyCars
                 config.CreateCarMapping();
             });
             services.AddScoped<ICarService, CarService>();
-            // Change singleton to scoped in production
+            // Use Mock
             services.AddSingleton(typeof(IBaseRepository<,,,>), typeof(MockRepository<,,,>));
+            // Use DataBase
+            //services.AddScoped(typeof(IBaseRepository<,,,>), typeof(BaseRepository<,,,>));
+            // end GraniteCore install
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

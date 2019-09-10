@@ -4,6 +4,17 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Version>2.0.0-alpha</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/peterfournier/Granite</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/peterfournier/Granite/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/peterfournier/Granite</RepositoryUrl>
+    <RepositoryType />
+    <PackageReleaseNotes>Second release alpha. 2nd BaseModel class added.</PackageReleaseNotes>
+    <PackageIconUrl>https://i.imgur.com/cpyW4fw.png</PackageIconUrl>
+    <Description>.Net Core boilerplate and middle tier framework</Description>
+    <Copyright>Copyright 2019</Copyright>
+    <PackageTags>.NETCore AspNetCore MVC boilerplate EntityFramework EntityFrameworkCore EFCore</PackageTags>
+    <Authors>Peter Fournier</Authors>
+    <Company>Software Vets, Inc</Company>
   </PropertyGroup>
 
 </Project>
