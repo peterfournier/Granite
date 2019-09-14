@@ -9,7 +9,8 @@ using System;
 
 namespace GraniteCore.EntityFrameworkCore
 {
-    public class BaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> : IBaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey>
+    public class BaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey, TUser> : IBaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey, TUser>
+        where TUser : IBaseApplicationUser<TUserPrimaryKey>
         where TDtoModel : class, IDto<TPrimaryKey>, new()
         where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
     {
@@ -38,12 +39,12 @@ namespace GraniteCore.EntityFrameworkCore
                             .AsNoTracking()
                             ;
 
-            if (set is IQueryable<IUserBasedModel<TPrimaryKey, TUserPrimaryKey>> userBaseSet)
+            if (set is IQueryable<IUserBasedModel<TPrimaryKey, TUserPrimaryKey, TUser>> userBaseSet)
             {
                 userBaseSet = userBaseSet.Include(x => x.CreatedByUser)
                                          .Include(x => x.LastModifiedByUser);
 
-                return _mapper.Map<IUserBasedModel<TPrimaryKey, TUserPrimaryKey>, TDtoModel>(userBaseSet);
+                return _mapper.Map<IUserBasedModel<TPrimaryKey, TUserPrimaryKey, TUser>, TDtoModel>(userBaseSet);
             }
 
             return _mapper.Map<TEntity, TDtoModel>(set);
@@ -78,13 +79,13 @@ namespace GraniteCore.EntityFrameworkCore
 
             _mapper.Map(dtoModel, entity);
 
-            if (dtoModel is IUserBasedDto<TPrimaryKey, TUserPrimaryKey> userBasedtoUpdated)
+            if (dtoModel is IUserBasedDto<TPrimaryKey, TUserPrimaryKey, TUser> userBasedtoUpdated)
             {
                 setCreatedFields(userBasedtoUpdated, userID);
                 setLastUpdatedFields(userBasedtoUpdated, userID);
             }
 
-            if (entity is IUserBasedModel<TPrimaryKey, TUserPrimaryKey> userBaseEntity)
+            if (entity is IUserBasedModel<TPrimaryKey, TUserPrimaryKey, TUser> userBaseEntity)
             {
                 setCreatedFields(userBaseEntity, userID);
                 setLastUpdatedFields(userBaseEntity, userID);
@@ -102,7 +103,7 @@ namespace GraniteCore.EntityFrameworkCore
         {
             var entity = await setEntityFieldsFromDto(dtoUpdated);
 
-            if (dtoUpdated is IUserBasedDto<TPrimaryKey, TUserPrimaryKey> userBasedtoUpdated)
+            if (dtoUpdated is IUserBasedDto<TPrimaryKey, TUserPrimaryKey, TUser> userBasedtoUpdated)
                 setLastUpdatedFields(userBasedtoUpdated, userID);
 
             ignoreFieldsWhenUpdating(entity);
@@ -118,7 +119,7 @@ namespace GraniteCore.EntityFrameworkCore
                 throw new ArgumentException("Could not find entity");
 
             // todo: changed to a soft delete.
-            if (entity is IUserBasedModel<TPrimaryKey, TUserPrimaryKey> userBaseEntity)
+            if (entity is IUserBasedModel<TPrimaryKey, TUserPrimaryKey, TUser> userBaseEntity)
                 setLastUpdatedFields(userBaseEntity, userID);
 
             _dbContext.Set<TEntity>().Remove(entity);
@@ -151,14 +152,14 @@ namespace GraniteCore.EntityFrameworkCore
 
         private void ignoreFieldsWhenUpdating(TEntity entity)
         {
-            if (entity is IUserBasedModel<TPrimaryKey, TUserPrimaryKey> userBaseEntity)
+            if (entity is IUserBasedModel<TPrimaryKey, TUserPrimaryKey, TUser> userBaseEntity)
             {
                 _dbContext.Entry(userBaseEntity).Property(x => x.CreatedByUserID).IsModified = false;
                 _dbContext.Entry(userBaseEntity).Property(x => x.CreatedDatetime).IsModified = false;
             }
         }
 
-        private void setCreatedFields(IUserBasedModel<TPrimaryKey, TUserPrimaryKey> model, TUserPrimaryKey userID)
+        private void setCreatedFields(IUserBasedModel<TPrimaryKey, TUserPrimaryKey, TUser> model, TUserPrimaryKey userID)
         {
             if (model == null)
                 throw new ArgumentNullException("model is not set");
@@ -170,7 +171,7 @@ namespace GraniteCore.EntityFrameworkCore
             model.CreatedByUserID = userID;
         }
 
-        private void setLastUpdatedFields(IUserBasedModel<TPrimaryKey, TUserPrimaryKey> model, TUserPrimaryKey userID)
+        private void setLastUpdatedFields(IUserBasedModel<TPrimaryKey, TUserPrimaryKey, TUser> model, TUserPrimaryKey userID)
         {
             if (model == null)
                 throw new ArgumentNullException("model is not set");

@@ -2,7 +2,9 @@
 
 namespace GraniteCore
 {
-    public abstract class UserBasedModel<TPrimaryKey, TUserPrimaryKey> : BaseModel<TPrimaryKey>, IUserBasedModel<TPrimaryKey, TUserPrimaryKey>
+    public abstract class UserBasedModel<TPrimaryKey, TUserPrimaryKey, TUser> : BaseModel<TPrimaryKey>, IUserBasedModel<TPrimaryKey, TUserPrimaryKey, TUser>
+        where TUser : IBaseApplicationUser<TUserPrimaryKey>
+
     {
         public virtual TUserPrimaryKey CreatedByUserID { get; set; }
 
@@ -14,9 +16,9 @@ namespace GraniteCore
 
 
         #region Nav props
-        public virtual BaseApplicationUser<TUserPrimaryKey> CreatedByUser { get; set; }
+        public virtual TUser CreatedByUser { get; set; }
 
-        public virtual BaseApplicationUser<TUserPrimaryKey> LastModifiedByUser { get; set; }
+        public virtual TUser LastModifiedByUser { get; set; }
         #endregion
     }
 }
