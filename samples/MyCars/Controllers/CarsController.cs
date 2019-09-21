@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using GraniteCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyCars.Domain.DTOs;
 using MyCars.Domain.ViewModels;
 using MyCars.Services;
@@ -67,88 +68,84 @@ namespace MyCars.Controllers
         }
 
         // GET: Cars/Edit/5
-        //public async Task<IActionResult> Edit(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Edit(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var carEntity = await _carService.Cars.FindAsync(id);
-        //    if (carEntity == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(carEntity);
-        //}
+            var carEntity = await _carService.GetById(id.Value);
+            if (carEntity == null)
+            {
+                return NotFound();
+            }
+            return View(carEntity);
+        }
 
         // POST: Cars/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(Guid id, [Bind("Year,ColorHex,Make,Model,ID")] CarEntity carEntity)
-        //{
-        //    if (id != carEntity.ID)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Guid id, [Bind("Year,ColorHex,Make,Model,ID")] CarViewModel carViewModel)
+        {
+            if (id != carViewModel.ID)
+            {
+                return NotFound();
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _carService.Update(carEntity);
-        //            await _carService.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!CarEntityExists(carEntity.ID))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(carEntity);
-        //}
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _carService.Update(id, _mapper.Map<CarViewModel, CarDTO>(carViewModel), Guid.NewGuid()); // todo need to remove UserId from update methods
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CarEntityExists(carViewModel.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(carViewModel);
+        }
 
         // GET: Cars/Delete/5
-        //public async Task<IActionResult> Delete(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var carEntity = await _carService.Cars
-        //        .FirstOrDefaultAsync(m => m.ID == id);
-        //    if (carEntity == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var carEntity = await _carService.GetById(id.Value);
+            if (carEntity == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(carEntity);
-        //}
+            return View(carEntity);
+        }
 
         // POST: Cars/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(Guid id)
-        //{
-        //    var carEntity = await _carService.Cars.FindAsync(id);
-        //    _carService.Cars.Remove(carEntity);
-        //    await _carService.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            await _carService.Delete(id, Guid.NewGuid());// todo need to remove UserId from update methods
+            return RedirectToAction(nameof(Index));
+        }
 
-        //private bool CarEntityExists(Guid id)
-        //{
-        //    return _carService.Cars.Any(e => e.ID == id);
-        //}
+        private bool CarEntityExists(Guid id)
+        {
+            return _carService.GetById(id) != null;
+        }
     }
 }

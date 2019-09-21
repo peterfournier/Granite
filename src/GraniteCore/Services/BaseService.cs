@@ -5,16 +5,15 @@ using System.Threading.Tasks;
 
 namespace GraniteCore
 {
-    public abstract class BaseService<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey, TUser> : IBaseService<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey, TUser>
-        where TUser : IBaseApplicationUser<TUserPrimaryKey>
+    public abstract class BaseService<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> : IBaseService<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey>        
         where TDtoModel : class, IDto<TPrimaryKey>, new()
         where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
     {
-        protected readonly IBaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey, TUser> Repository;
+        protected readonly IBaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> Repository;
         protected readonly IGraniteMapper Mapper;
 
         public BaseService(
-            IBaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey, TUser> repository,
+            IBaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> repository,
             IGraniteMapper mapper
             )
         {

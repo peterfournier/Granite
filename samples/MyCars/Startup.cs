@@ -21,6 +21,7 @@ using AutoMapper;
 using MyCars.Domain.DTOs;
 using MyCars.Domain.ViewModels;
 using MyCars.Domain.Models;
+using MyCars.Areas.Identity;
 
 namespace MyCars
 {
@@ -46,7 +47,7 @@ namespace MyCars
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<ApplicationUser>() // GraniteCore install
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -60,9 +61,10 @@ namespace MyCars
             });
             services.AddScoped<ICarService, CarService>();
             // Use Mock
-            services.AddSingleton(typeof(IBaseRepository<,,,>), typeof(MockRepository<,,,>));
+            //services.AddSingleton(typeof(IBaseRepository<,,,>), typeof(MockRepository<,,,>));
+
             // Use DataBase
-            //services.AddScoped(typeof(IBaseRepository<,,,>), typeof(BaseRepository<,,,>));
+            services.AddScoped(typeof(IBaseRepository<,,,>), typeof(BaseRepository<,,,>));
             // end GraniteCore install
         }
 

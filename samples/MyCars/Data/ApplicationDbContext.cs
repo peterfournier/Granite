@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MyCars.Areas.Identity;
 using MyCars.Domain.Models;
 
 namespace MyCars.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    // GraniteCore install <ApplicationUser, IdentityRole, string>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
         public DbSet<CarEntity> Cars { get; set; }
+        public DbSet<CustomerEntity> Customers { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
