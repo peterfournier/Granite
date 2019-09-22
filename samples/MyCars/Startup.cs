@@ -47,7 +47,7 @@ namespace MyCars
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<ApplicationUser>() // GraniteCore install
+            services.AddDefaultIdentity<GraniteCoreApplicationUser>() // GraniteCore install
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -58,13 +58,15 @@ namespace MyCars
             services.AddGraniteAutoMapper(config =>
             {
                 config.CreateCarMapping();
+                config.CreateCustomerMapping();
+                config.CreateUserMapping();
             });
+            services.AddScoped(typeof(DbContext), typeof(ApplicationDbContext));
             services.AddScoped<ICarService, CarService>();
+            services.AddScoped<ICustomerService, CustomerService>();
             // Use Mock
             //services.AddSingleton(typeof(IBaseRepository<,,,>), typeof(MockRepository<,,,>));
 
-            // Use DataBase
-            services.AddScoped(typeof(IBaseRepository<,,,>), typeof(BaseRepository<,,,>));
             // end GraniteCore install
         }
 
@@ -111,6 +113,24 @@ namespace MyCars
                     ;
 
             config.CreateMap<CarDTO, CarEntity>()
+                    .ReverseMap()
+                    ;
+        }
+
+        public static void CreateCustomerMapping(this IMapperConfigurationExpression config)
+        {
+            config.CreateMap<CustomerViewModel, CustomerDTO>()
+                    .ReverseMap()
+                    ;
+
+            config.CreateMap<CustomerDTO, CustomerEntity>()
+                    .ReverseMap()
+                    ;
+        }
+
+        public static void CreateUserMapping(this IMapperConfigurationExpression config)
+        {
+            config.CreateMap<GraniteCoreApplicationUser, UserViewModel>()
                     .ReverseMap()
                     ;
         }

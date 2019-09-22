@@ -13,8 +13,8 @@ namespace MyCars.Domain.Models
         public DateTime InceptionDate { get; set; }
 
         #region Nav Props
-        public new ApplicationUser CreatedByUser { get; set; }
-        public new ApplicationUser LastModifiedByUser { get; set; }
+        public new GraniteCoreApplicationUser CreatedByUser { get; set; }
+        public new GraniteCoreApplicationUser LastModifiedByUser { get; set; }
         #endregion
     }
 }

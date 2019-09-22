@@ -40,10 +40,12 @@ namespace GraniteCore.EntityFrameworkCore
 
             if (set is IQueryable<IUserBasedModel<TPrimaryKey, TUserPrimaryKey>> userBaseSet)
             {
-                userBaseSet = userBaseSet.Include(x => x.CreatedByUser)
-                                         .Include(x => x.LastModifiedByUser);
+                //userBaseSet = userBaseSet.Include(x => x.CreatedByUser)
+                //                         .Include(x => x.LastModifiedByUser);
 
-                return _mapper.Map<IUserBasedModel<TPrimaryKey, TUserPrimaryKey>, TDtoModel>(userBaseSet);
+                //if (userBaseSet is IQueryable<TEntity>)
+                //    set = userBaseSet as IQueryable<TEntity>;
+                //return _mapper.Map<IUserBasedModel<TPrimaryKey, TUserPrimaryKey>, TDtoModel>(userBaseSet);
             }
 
             return _mapper.Map<TEntity, TDtoModel>(set);

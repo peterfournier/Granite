@@ -1,35 +1,41 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GraniteCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MyCars.Data;
 using MyCars.Domain.DTOs;
 using MyCars.Domain.ViewModels;
 using MyCars.Services;
 
 namespace MyCars.Controllers
 {
-    public class CarsController : BaseController
+    [Authorize]
+    public class CustomersController : BaseController
     {
-        private readonly ICarService _carService;
+        private readonly ICustomerService _customerService;
         private readonly IGraniteMapper _mapper;
 
-        public CarsController(
-            ICarService carService,
+        public CustomersController(
+            ICustomerService customerService,
             IGraniteMapper mapper
             )
         {
-            _carService = carService;
+            _customerService = customerService;
             _mapper = mapper;
         }
 
-        // GET: Cars
-        public IActionResult Index()
-        {
-            return View(_carService.GetTopCars(5));
+        // GET: Customers
+        public async Task<IActionResult> Index()
+        {         
+            return View(_mapper.Map<CustomerDTO, CustomerViewModel>(_customerService.GetAll()));
         }
 
-        // GET: Cars/Details/5
+        // GET: Customers/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -37,37 +43,39 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            var carEntity = await _carService.GetById(id.Value);
-            if (carEntity == null)
+            var customerViewModel = await _customerService.GetById(id.Value);
+
+            if (customerViewModel == null)
             {
                 return NotFound();
             }
 
-            return View(carEntity);
+            return View(customerViewModel);
         }
 
-        // GET: Cars/Create
+        // GET: Customers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Cars/Create
+        // POST: Customers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Year,ColorHex,Make,Model,ID")] CarViewModel carViewModel)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,Age,InceptionDate,ID")] CustomerViewModel customerViewModel)
         {
             if (ModelState.IsValid)
             {
-                await _carService.Create(_mapper.Map<CarViewModel, CarDTO>(carViewModel), "");
+                await _customerService.Create(_mapper.Map<CustomerViewModel,CustomerDTO>(customerViewModel), UserId);
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(carViewModel);
+            return View(customerViewModel);
         }
 
-        // GET: Cars/Edit/5
+        // GET: Customers/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -75,22 +83,22 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            var carEntity = await _carService.GetById(id.Value);
-            if (carEntity == null)
+            var customerViewModel = await _customerService.GetById(id.Value);
+            if (customerViewModel == null)
             {
                 return NotFound();
             }
-            return View(carEntity);
+            return View(_mapper.Map<CustomerDTO, CustomerViewModel>(customerViewModel));
         }
 
-        // POST: Cars/Edit/5
+        // POST: Customers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Year,ColorHex,Make,Model,ID")] CarViewModel carViewModel)
+        public async Task<IActionResult> Edit(Guid id, [Bind("FirstName,LastName,Age,InceptionDate,ID")] CustomerViewModel customerViewModel)
         {
-            if (id != carViewModel.ID)
+            if (id != customerViewModel.ID)
             {
                 return NotFound();
             }
@@ -99,11 +107,11 @@ namespace MyCars.Controllers
             {
                 try
                 {
-                    await _carService.Update(id, _mapper.Map<CarViewModel, CarDTO>(carViewModel), ""); // todo need to remove UserId from update methods
+                    await _customerService.Update(id, _mapper.Map<CustomerViewModel, CustomerDTO>(customerViewModel), ApplicationUser.Id);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CarEntityExists(carViewModel.ID))
+                    if (!CustomerViewModelExists(customerViewModel.ID))
                     {
                         return NotFound();
                     }
@@ -114,10 +122,10 @@ namespace MyCars.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(carViewModel);
+            return View(customerViewModel);
         }
 
-        // GET: Cars/Delete/5
+        // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -125,27 +133,28 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            var carEntity = await _carService.GetById(id.Value);
-            if (carEntity == null)
+            var customerViewModel = await _customerService.GetById(id.Value);
+
+            if (customerViewModel == null)
             {
                 return NotFound();
             }
 
-            return View(carEntity);
+            return View(_mapper.Map<CustomerDTO, CustomerViewModel>(customerViewModel));
         }
 
-        // POST: Cars/Delete/5
+        // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _carService.Delete(id, "");// todo need to remove UserId from update methods
+            await _customerService.Delete(id, UserId);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CarEntityExists(Guid id)
+        private bool CustomerViewModelExists(Guid id)
         {
-            return _carService.GetById(id) != null;
+            return _customerService.GetAll().Any(e => e.ID == id);
         }
     }
 }

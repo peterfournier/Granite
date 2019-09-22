@@ -7,7 +7,7 @@ namespace MyCars.Areas.Identity
 {
     // GraniteCore install
     [Table("AspNetUsers")]
-    public class ApplicationUser : IdentityUser
+    public class GraniteCoreApplicationUser : IdentityUser
     {
         [Required]
         [MaxLength(50)]

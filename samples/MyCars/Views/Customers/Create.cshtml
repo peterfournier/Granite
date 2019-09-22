@@ -1,0 +1,66 @@
+﻿@model MyCars.Domain.ViewModels.CustomerViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>CustomerViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InceptionDate" class="control-label"></label>
+                <input asp-for="InceptionDate" class="form-control" />
+                <span asp-validation-for="InceptionDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="CreatedByUserID" class="control-label"></label>
+                <select asp-for="CreatedByUserID" class ="form-control" asp-items="ViewBag.CreatedByUserID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedDatetime" class="control-label"></label>
+                <input asp-for="CreatedDatetime" class="form-control" />
+                <span asp-validation-for="CreatedDatetime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastModifiedByUserID" class="control-label"></label>
+                <select asp-for="LastModifiedByUserID" class ="form-control" asp-items="ViewBag.LastModifiedByUserID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastModifiedDatetime" class="control-label"></label>
+                <input asp-for="LastModifiedDatetime" class="form-control" />
+                <span asp-validation-for="LastModifiedDatetime" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
