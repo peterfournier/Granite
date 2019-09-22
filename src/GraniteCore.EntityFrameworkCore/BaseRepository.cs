@@ -102,14 +102,14 @@ namespace GraniteCore.EntityFrameworkCore
 
         public virtual async Task Update(TPrimaryKey id, TDtoModel dtoUpdated, TUserPrimaryKey userID)
         {
-            var entity = await setEntityFieldsFromDto(dtoUpdated);
-
             if (dtoUpdated is IUserBasedDto<TPrimaryKey, TUserPrimaryKey> userBasedtoUpdated)
                 setLastUpdatedFields(userBasedtoUpdated, userID);
 
+            var entity = await setEntityFieldsFromDto(dtoUpdated);
+
             ignoreFieldsWhenUpdating(entity);
 
-            _dbContext.Set<TEntity>().Update(entity);
+            _dbContext.Set<TEntity>().Update(entity); // todo this does not handle partial updates
             await _dbContext.SaveChangesAsync();
         }
 

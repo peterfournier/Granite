@@ -43,14 +43,17 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            var customerViewModel = await _customerService.GetById(id.Value);
+            var customerViewModel = await _customerService.GetById(
+                id.Value, 
+                x => x.LastModifiedByUser
+                );
 
             if (customerViewModel == null)
             {
                 return NotFound();
             }
 
-            return View(customerViewModel);
+            return View(_mapper.Map<CustomerDTO,CustomerViewModel>(customerViewModel));
         }
 
         // GET: Customers/Create
@@ -107,7 +110,7 @@ namespace MyCars.Controllers
             {
                 try
                 {
-                    await _customerService.Update(id, _mapper.Map<CustomerViewModel, CustomerDTO>(customerViewModel), ApplicationUser.Id);
+                    await _customerService.Update(id, _mapper.Map<CustomerViewModel, CustomerDTO>(customerViewModel), UserId);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
