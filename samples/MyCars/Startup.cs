@@ -66,7 +66,7 @@ namespace MyCars
             services.AddScoped<ICustomerService, CustomerService>();
             // Use Mock
             //services.AddSingleton(typeof(IBaseRepository<,,,>), typeof(MockRepository<,,,>));
-
+            // testing commits...
             // end GraniteCore install
         }
 
