@@ -17,6 +17,5 @@ namespace MyCars.Data
             : base(options)
         {
         }
-        public DbSet<MyCars.Domain.ViewModels.CustomerViewModel> CustomerViewModel { get; set; }
     }
 }
