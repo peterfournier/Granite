@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Threading.Tasks;
 using GraniteCore;
+using GraniteCore.MVC.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MyCars.Domain.DTOs;
 using MyCars.Domain.ViewModels;
 using MyCars.Services;
 
 namespace MyCars.Controllers
 {
-    public class CarsController : BaseController
+    public class CarsController : BaseController<CarsController>
     {
         private readonly ICarService _carService;
-        private readonly IGraniteMapper _mapper;
 
         public CarsController(
             ICarService carService,
-            IGraniteMapper mapper
-            )
+            IGraniteMapper graniteMapper,
+            ILogger<CarsController> logger
+            ) : base (graniteMapper, logger)
         {
             _carService = carService;
-            _mapper = mapper;
         }
 
         // GET: Cars
@@ -61,7 +62,7 @@ namespace MyCars.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _carService.Create(_mapper.Map<CarViewModel, CarDTO>(carViewModel), "");
+                await _carService.Create(GraniteMapper.Map<CarViewModel, CarDTO>(carViewModel), "");
                 return RedirectToAction(nameof(Index));
             }
             return View(carViewModel);
@@ -99,7 +100,7 @@ namespace MyCars.Controllers
             {
                 try
                 {
-                    await _carService.Update(id, _mapper.Map<CarViewModel, CarDTO>(carViewModel), ""); // todo need to remove UserId from update methods
+                    await _carService.Update(id, GraniteMapper.Map<CarViewModel, CarDTO>(carViewModel), ""); // todo need to remove UserId from update methods
                 }
                 catch (DbUpdateConcurrencyException)
                 {

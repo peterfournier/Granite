@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GraniteCore;
+using GraniteCore.MVC.Controllers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MyCars.Data;
+using Microsoft.Extensions.Logging;
+using MyCars.Areas.Identity;
 using MyCars.Domain.DTOs;
 using MyCars.Domain.ViewModels;
 using MyCars.Services;
@@ -15,24 +16,25 @@ using MyCars.Services;
 namespace MyCars.Controllers
 {
     [Authorize]
-    public class CustomersController : BaseController
+    public class CustomersController : UserBasedController<GraniteCoreApplicationUser, CustomersController, string>
     {
         private readonly ICustomerService _customerService;
-        private readonly IGraniteMapper _mapper;
 
         public CustomersController(
             ICustomerService customerService,
-            IGraniteMapper mapper
-            )
+            IGraniteMapper graniteMapper,
+            ILogger<CustomersController> logger,
+            UserManager<GraniteCoreApplicationUser> userManager
+            ) : base(graniteMapper, logger, userManager)
         {
             _customerService = customerService;
-            _mapper = mapper;
         }
 
         // GET: Customers
         public async Task<IActionResult> Index()
-        {         
-            return View(_mapper.Map<CustomerDTO, CustomerViewModel>(_customerService.GetAll()));
+        {
+            Logger.LogInformation("************** Loading customer index");
+            return View(GraniteMapper.Map<CustomerDTO, CustomerViewModel>(_customerService.GetAll()));
         }
 
         // GET: Customers/Details/5
@@ -53,7 +55,7 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            return View(_mapper.Map<CustomerDTO,CustomerViewModel>(customerViewModel));
+            return View(GraniteMapper.Map<CustomerDTO,CustomerViewModel>(customerViewModel));
         }
 
         // GET: Customers/Create
@@ -71,7 +73,7 @@ namespace MyCars.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _customerService.Create(_mapper.Map<CustomerViewModel,CustomerDTO>(customerViewModel), UserId);
+                await _customerService.Create(GraniteMapper.Map<CustomerViewModel,CustomerDTO>(customerViewModel), ApplicationUser?.Id);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -91,7 +93,7 @@ namespace MyCars.Controllers
             {
                 return NotFound();
             }
-            return View(_mapper.Map<CustomerDTO, CustomerViewModel>(customerViewModel));
+            return View(GraniteMapper.Map<CustomerDTO, CustomerViewModel>(customerViewModel));
         }
 
         // POST: Customers/Edit/5
@@ -110,7 +112,7 @@ namespace MyCars.Controllers
             {
                 try
                 {
-                    await _customerService.Update(id, _mapper.Map<CustomerViewModel, CustomerDTO>(customerViewModel), UserId);
+                    await _customerService.Update(id, GraniteMapper.Map<CustomerViewModel, CustomerDTO>(customerViewModel), ApplicationUser?.Id);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -143,7 +145,7 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            return View(_mapper.Map<CustomerDTO, CustomerViewModel>(customerViewModel));
+            return View(GraniteMapper.Map<CustomerDTO, CustomerViewModel>(customerViewModel));
         }
 
         // POST: Customers/Delete/5
@@ -151,7 +153,7 @@ namespace MyCars.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _customerService.Delete(id, UserId);
+            await _customerService.Delete(id, ApplicationUser?.Id);
             return RedirectToAction(nameof(Index));
         }
 

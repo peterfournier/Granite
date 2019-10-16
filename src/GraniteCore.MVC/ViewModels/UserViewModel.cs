@@ -1,8 +1,5 @@
-﻿using GraniteCore;
-
-namespace MyCars.Domain.ViewModels
+﻿namespace GraniteCore.MVC.ViewModels
 {
-    // Granite install
     public class UserViewModel : IBaseApplicationUser<string>
     {
         public string FirstName { get; set; }
@@ -11,6 +8,5 @@ namespace MyCars.Domain.ViewModels
         public string UserName { get; set; }
         public string Email { get; set; }
         public string ID { get; set; }
-        //public string Id { get; set; }
     }
 }

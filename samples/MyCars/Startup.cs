@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using GraniteCore.AutoMapper;
+using GraniteCore.EntityFrameworkCore;
+using GraniteCore.MVC.ViewModels;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MyCars.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using GraniteCore.EntityFrameworkCore;
-using GraniteCore.AutoMapper;
-using MyCars.Services;
-using GraniteCore;
-using AutoMapper;
-using MyCars.Domain.DTOs;
-using MyCars.Domain.ViewModels;
-using MyCars.Domain.Models;
 using MyCars.Areas.Identity;
+using MyCars.Data;
+using MyCars.Domain.DTOs;
+using MyCars.Domain.Models;
+using MyCars.Domain.ViewModels;
+using MyCars.Services;
 
 namespace MyCars
 {
@@ -47,6 +42,8 @@ namespace MyCars
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+
             services.AddDefaultIdentity<GraniteCoreApplicationUser>() // GraniteCore install
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -98,8 +95,6 @@ namespace MyCars
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-
-        
     }
 
 

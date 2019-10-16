@@ -1,4 +1,5 @@
 ﻿using GraniteCore;
+using GraniteCore.MVC.ViewModels;
 using System;
 
 namespace MyCars.Domain.ViewModels

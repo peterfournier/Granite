@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Peter Fournier</Authors>
+    <Company>Software Vets, Inc</Company>
+    <Description>MVC support for GraniteCore</Description>
+    <Copyright></Copyright>
+    <PackageLicenseUrl>https://github.com/peterfournier/Granite/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/peterfournier/Granite</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/peterfournier/Granite</RepositoryUrl>
+    <PackageTags>.NETCore AspNetCore MVC boilerplate MVC</PackageTags>
+    <PackageReleaseNotes>Initial release includes two base controllers, and the user view model</PackageReleaseNotes>
+    <Version>1.0.0-alpha</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GraniteCore\GraniteCore.csproj" />
+  </ItemGroup>
+
+</Project>
