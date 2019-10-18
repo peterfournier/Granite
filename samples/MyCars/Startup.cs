@@ -17,6 +17,8 @@ using MyCars.Domain.DTOs;
 using MyCars.Domain.Models;
 using MyCars.Domain.ViewModels;
 using MyCars.Services;
+using GraniteCore.RavenDB;
+using Raven.Client.Documents;
 
 namespace MyCars
 {
@@ -51,7 +53,16 @@ namespace MyCars
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // GraniteCore install
-            services.AddGraniteEntityFrameworkCore();
+            //services.AddGraniteEntityFrameworkCore();
+            services.AddGraniteRavenDB(() => new DocumentStore()
+            {
+                Urls = new[]
+                {
+                    "http://127.0.0.1:0"
+                },
+                Database = "GraniteCoreSandbox",
+                Conventions = { }
+            });
             services.AddGraniteAutoMapper(config =>
             {
                 config.CreateCarMapping();

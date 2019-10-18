@@ -18,6 +18,7 @@
     <ProjectReference Include="..\..\src\GraniteCore.Automapper\GraniteCore.AutoMapper.csproj" />
     <ProjectReference Include="..\..\src\GraniteCore.EntityFrameworkCore\GraniteCore.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\src\GraniteCore.MVC\GraniteCore.MVC.csproj" />
+    <ProjectReference Include="..\..\src\GraniteCore.RavenDB\GraniteCore.RavenDB.csproj" />
     <ProjectReference Include="..\..\src\GraniteCore\GraniteCore.csproj" />
   </ItemGroup>
 

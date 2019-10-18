@@ -20,7 +20,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{AF5D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCars", "..\samples\MyCars\MyCars.csproj", "{8E61CF5B-30AC-49B2-8359-2ED6B58C5290}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraniteCore.MVC", "GraniteCore.MVC\GraniteCore.MVC.csproj", "{A6A29364-DEC2-44DB-BC24-7CD3F7EC7A25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraniteCore.MVC", "GraniteCore.MVC\GraniteCore.MVC.csproj", "{A6A29364-DEC2-44DB-BC24-7CD3F7EC7A25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraniteCore.RavenDB", "GraniteCore.RavenDB\GraniteCore.RavenDB.csproj", "{D7A39905-3DE2-437D-BC1D-32346D16079D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 		{A6A29364-DEC2-44DB-BC24-7CD3F7EC7A25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6A29364-DEC2-44DB-BC24-7CD3F7EC7A25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6A29364-DEC2-44DB-BC24-7CD3F7EC7A25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7A39905-3DE2-437D-BC1D-32346D16079D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7A39905-3DE2-437D-BC1D-32346D16079D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7A39905-3DE2-437D-BC1D-32346D16079D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7A39905-3DE2-437D-BC1D-32346D16079D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
