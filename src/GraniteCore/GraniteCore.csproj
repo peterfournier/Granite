@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/peterfournier/Granite</RepositoryUrl>
     <RepositoryType />
     <PackageReleaseNotes>Added a new UserBased model architecture.</PackageReleaseNotes>
-    <PackageIconUrl>https://i.imgur.com/cpyW4fw.png</PackageIconUrl>
+    <PackageIconUrl>https://i.imgur.com/tODd4nj.png</PackageIconUrl>
     <Description>.Net Core boilerplate and middle tier framework</Description>
     <Copyright>Copyright 2019</Copyright>
     <PackageTags>.NETCore AspNetCore MVC boilerplate EntityFramework EntityFrameworkCore EFCore</PackageTags>

@@ -13,7 +13,7 @@
     <Description>EntityFrameworkCore support for GraniteCore</Description>
     <PackageTags>.NETCore AspNetCore MVC boilerplate EntityFramework EntityFrameworkCore EFCore</PackageTags>
     <PackageReleaseNotes>Added a new UserBased model architecture.</PackageReleaseNotes>
-    <PackageIconUrl>https://i.imgur.com/Z4BjwEL.png</PackageIconUrl>
+    <PackageIconUrl>https://imgur.com/RMUx6mA.png</PackageIconUrl>
     <OutputPath>C:\Projects\Local Nuget</OutputPath>
   </PropertyGroup>
 

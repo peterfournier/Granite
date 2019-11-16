@@ -9,7 +9,7 @@
     <PackageLicenseUrl>https://github.com/peterfournier/Granite/blob/master/LICENSE</PackageLicenseUrl>
     <Company>Software Vets, Inc</Company>
     <Authors>Peter Fournier</Authors>
-    <PackageIconUrl>https://i.imgur.com/Z4BjwEL.png</PackageIconUrl>
+    <PackageIconUrl>https://imgur.com/ct2R5DQ.png</PackageIconUrl>
     <Copyright>Copyright 2019</Copyright>
     <PackageTags>.NETCore AspNetCore MVC boilerplate AutoMapper</PackageTags>
     <PackageReleaseNotes>2nd release alpha. Automapper initialize function exposed through the constructor.</PackageReleaseNotes>
