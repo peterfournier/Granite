@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -13,6 +13,8 @@
     <PackageReleaseNotes>UserBasedController now will set the user in the service layer</PackageReleaseNotes>
     <Version>2.1.0-alpha</Version>
     <PackageIconUrl>https://imgur.com/le5T8go.png</PackageIconUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <OutputPath>C:\Projects\Local Nuget</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
