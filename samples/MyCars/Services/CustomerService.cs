@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using GraniteCore;
+using MyCars.Areas.Identity;
 using MyCars.Domain.DTOs;
 using MyCars.Domain.Models;
 
 namespace MyCars.Services
 {
     // GraniteCore install
-    public class CustomerService : BaseService<CustomerDTO, CustomerEntity, Guid, string>, ICustomerService
+    public class CustomerService : UserBasedService<CustomerDTO, CustomerEntity, Guid, GraniteCoreApplicationUser, string>, ICustomerService
     {
         public CustomerService(
-            IBaseRepository<CustomerDTO, CustomerEntity, Guid, string> repository, 
+            IUserBasedRepository<CustomerDTO, CustomerEntity, Guid, GraniteCoreApplicationUser, string> repository, 
             IGraniteMapper mapper) 
             : base(repository, mapper)
         {

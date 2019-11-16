@@ -10,8 +10,8 @@
     <PackageProjectUrl>https://github.com/peterfournier/Granite</PackageProjectUrl>
     <RepositoryUrl>https://github.com/peterfournier/Granite</RepositoryUrl>
     <PackageTags>.NETCore AspNetCore MVC boilerplate MVC</PackageTags>
-    <PackageReleaseNotes>Initial release includes two base controllers, and the user view model</PackageReleaseNotes>
-    <Version>1.0.0-alpha</Version>
+    <PackageReleaseNotes>UserBasedController now will set the user in the service layer</PackageReleaseNotes>
+    <Version>2.1.0-alpha</Version>
   </PropertyGroup>
 
   <ItemGroup>

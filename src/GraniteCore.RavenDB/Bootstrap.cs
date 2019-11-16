@@ -18,7 +18,7 @@ namespace GraniteCore.RavenDB
             var store = createStore.Invoke();
             store.Initialize();
             services.AddSingleton(typeof(IDocumentStore), store);
-            services.AddScoped(typeof(IBaseRepository<,,,>), typeof(RavenDBBaseRepository<,,,>));
+            services.AddScoped(typeof(IBaseRepository<,,>), typeof(RavenDBBaseRepository<,,,>));
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace MyCars.Services
 {
     // GraniteCore install
-    public interface ICarService : IBaseService<CarDTO, CarEntity, Guid, string> // todo remove this TUserPrimaryKey 
+    public interface ICarService : IBaseService<CarDTO, CarEntity, Guid>
     {
         IList<CarDTO> GetTopCars(int take = 5);
     }

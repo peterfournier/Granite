@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GraniteCore;
@@ -16,7 +17,7 @@ using MyCars.Services;
 namespace MyCars.Controllers
 {
     [Authorize]
-    public class CustomersController : UserBasedController<GraniteCoreApplicationUser, CustomersController, string>
+    public class CustomersController : UserBasedController<CustomersController, GraniteCoreApplicationUser, string>
     {
         private readonly ICustomerService _customerService;
 
@@ -25,7 +26,7 @@ namespace MyCars.Controllers
             IGraniteMapper graniteMapper,
             ILogger<CustomersController> logger,
             UserManager<GraniteCoreApplicationUser> userManager
-            ) : base(graniteMapper, logger, userManager)
+            ) : base(graniteMapper, logger, userManager, customerService)
         {
             _customerService = customerService;
         }
@@ -34,7 +35,9 @@ namespace MyCars.Controllers
         public async Task<IActionResult> Index()
         {
             Logger.LogInformation("************** Loading customer index");
-            return View(GraniteMapper.Map<CustomerDTO, CustomerViewModel>(_customerService.GetAll()));
+            var customers = GraniteMapper.Map<CustomerDTO, CustomerViewModel>(_customerService.GetAll()).ToList();
+            return View(customers);
+            //return View(new List<CustomerViewModel>());
         }
 
         // GET: Customers/Details/5
@@ -73,7 +76,7 @@ namespace MyCars.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _customerService.Create(GraniteMapper.Map<CustomerViewModel,CustomerDTO>(customerViewModel), ApplicationUser?.Id);
+                await _customerService.Create(GraniteMapper.Map<CustomerViewModel,CustomerDTO>(customerViewModel));
 
                 return RedirectToAction(nameof(Index));
             }
@@ -112,7 +115,7 @@ namespace MyCars.Controllers
             {
                 try
                 {
-                    await _customerService.Update(id, GraniteMapper.Map<CustomerViewModel, CustomerDTO>(customerViewModel), ApplicationUser?.Id);
+                    await _customerService.Update(id, GraniteMapper.Map<CustomerViewModel, CustomerDTO>(customerViewModel));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -153,7 +156,7 @@ namespace MyCars.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _customerService.Delete(id, ApplicationUser?.Id);
+            await _customerService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 

@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 
 namespace GraniteCore
 {
-    public abstract class BaseService<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> : IBaseService<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey>        
+    public abstract class BaseService<TDtoModel, TEntity, TPrimaryKey> : IBaseService<TDtoModel, TEntity, TPrimaryKey>
         where TDtoModel : class, IDto<TPrimaryKey>, new()
         where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
     {
-        protected readonly IBaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> Repository;
-        protected readonly IGraniteMapper Mapper;
+        protected virtual IBaseRepository<TDtoModel, TEntity, TPrimaryKey> Repository { get; private set; }
+        protected virtual IGraniteMapper Mapper { get; private set; }
 
         public BaseService(
-            IBaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> repository,
+            IBaseRepository<TDtoModel, TEntity, TPrimaryKey> repository,
             IGraniteMapper mapper
             )
         {
@@ -26,19 +26,19 @@ namespace GraniteCore
             return Repository.GetAll();
         }
 
-        public virtual Task<TDtoModel> Create(TDtoModel entity, TUserPrimaryKey userPrimaryKey)
+        public virtual Task<TDtoModel> Create(TDtoModel dtoModel)
         {
-            return Repository.Create(entity, userPrimaryKey);
+            return Repository.Create(dtoModel);
         }
 
-        public virtual Task Delete(TPrimaryKey id, TUserPrimaryKey userPrimaryKey)
+        public virtual Task Delete(TPrimaryKey id)
         {
-            return Repository.Delete(id, userPrimaryKey);
+            return Repository.Delete(id);
         }
 
-        public virtual Task Update(TPrimaryKey id, TDtoModel entity, TUserPrimaryKey userPrimaryKey)
+        public virtual Task Update(TPrimaryKey id, TDtoModel dtoModel)
         {
-            return Repository.Update(id, entity, userPrimaryKey);
+            return Repository.Update(id, dtoModel);
         }
 
         public virtual Task<TDtoModel> GetById(

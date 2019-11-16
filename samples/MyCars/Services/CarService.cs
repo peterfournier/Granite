@@ -8,10 +8,10 @@ using MyCars.Domain.Models;
 namespace MyCars.Services
 {
     // GraniteCore install
-    public class CarService : BaseService<CarDTO, CarEntity, Guid, string>, ICarService  // todo remove this TUserPrimaryKey 
+    public class CarService : BaseService<CarDTO, CarEntity, Guid>, ICarService  // todo remove this TUserPrimaryKey 
     {
         public CarService(
-            IBaseRepository<CarDTO, CarEntity, Guid, string> repository, 
+            IBaseRepository<CarDTO, CarEntity, Guid> repository, 
             IGraniteMapper mapper) 
             : base(repository, mapper)
         {

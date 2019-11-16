@@ -53,22 +53,23 @@ namespace MyCars
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // GraniteCore install
-            //services.AddGraniteEntityFrameworkCore();
-            services.AddGraniteRavenDB(() => new DocumentStore()
-            {
-                Urls = new[]
-                {
-                    "http://127.0.0.1:0"
-                },
-                Database = "GraniteCoreSandbox",
-                Conventions = { }
-            });
+            services.AddGraniteEntityFrameworkCore();
+            //services.AddGraniteRavenDB(() => new DocumentStore()
+            //{
+            //    Urls = new[]
+            //    {
+            //        Configuration.GetConnectionString("RavenDB")
+            //    },
+            //    Database = "GraniteCoreSandbox",
+            //    Conventions = { }
+            //});
             services.AddGraniteAutoMapper(config =>
             {
                 config.CreateCarMapping();
                 config.CreateCustomerMapping();
                 config.CreateUserMapping();
             });
+
             services.AddScoped(typeof(DbContext), typeof(ApplicationDbContext));
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<ICustomerService, CustomerService>();
@@ -119,6 +120,7 @@ namespace MyCars
                     ;
 
             config.CreateMap<CarDTO, CarEntity>()
+                    .ForMember(x => x.ID, x => x.Ignore())
                     .ReverseMap()
                     ;
         }

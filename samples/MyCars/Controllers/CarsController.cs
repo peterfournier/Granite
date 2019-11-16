@@ -62,7 +62,7 @@ namespace MyCars.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _carService.Create(GraniteMapper.Map<CarViewModel, CarDTO>(carViewModel), "");
+                await _carService.Create(GraniteMapper.Map<CarViewModel, CarDTO>(carViewModel));
                 return RedirectToAction(nameof(Index));
             }
             return View(carViewModel);
@@ -100,7 +100,7 @@ namespace MyCars.Controllers
             {
                 try
                 {
-                    await _carService.Update(id, GraniteMapper.Map<CarViewModel, CarDTO>(carViewModel), ""); // todo need to remove UserId from update methods
+                    await _carService.Update(id, GraniteMapper.Map<CarViewModel, CarDTO>(carViewModel));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -140,7 +140,7 @@ namespace MyCars.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _carService.Delete(id, "");// todo need to remove UserId from update methods
+            await _carService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
