@@ -15,6 +15,7 @@
     <Copyright>Copyright 2019</Copyright>
     <PackageIconUrl>https://imgur.com/gF8jAQP.png</PackageIconUrl>
     <OutputPath>C:\Projects\Local Nuget</OutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
