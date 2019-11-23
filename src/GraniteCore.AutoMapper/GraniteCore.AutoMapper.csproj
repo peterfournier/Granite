@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -14,6 +14,7 @@
     <PackageTags>.NETCore AspNetCore MVC boilerplate AutoMapper</PackageTags>
     <PackageReleaseNotes>2nd release alpha. Automapper initialize function exposed through the constructor.</PackageReleaseNotes>
     <Description>AutoMapper support for GraniteCore</Description>
+    <OutputPath>C:\Projects\Local Nuget</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
