@@ -1,9 +1,8 @@
 ﻿namespace GraniteCore.Services
 {
-    public interface IUserModifierService<TUser, TUserPrimaryKey>
-        where TUser : IBaseApplicationUser<TUserPrimaryKey>
+    public interface IUserModifierService<TUserPrimaryKey>        
     {
-        TUser User { get; }
-        void SetUser(TUser user);
+        IBaseApplicationUser<TUserPrimaryKey> User { get; }
+        void SetUser(IBaseApplicationUser<TUserPrimaryKey> user);
     }
 }

@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MyCars.Areas.Identity;
 using MyCars.Domain.Models;
-using MyCars.Domain.ViewModels;
 
 namespace MyCars.Data
 {
@@ -16,6 +14,17 @@ namespace MyCars.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<CustomerEntity>()
+                .HasOne(x => x.CreatedByUser as GraniteCoreApplicationUser);
+
+            builder.Entity<CustomerEntity>()
+                .HasOne(x => x.LastModifiedByUser as GraniteCoreApplicationUser);
         }
     }
 }

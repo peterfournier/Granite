@@ -1,26 +1,24 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace GraniteCore
 {
-    public abstract class UserBasedService<TDtoModel, TEntity, TPrimaryKey, TUser, TUserPrimaryKey> : BaseService<TDtoModel, TEntity, TPrimaryKey>, IUserBaseService<TDtoModel, TEntity, TPrimaryKey, TUser, TUserPrimaryKey>
+    public abstract class UserBasedService<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> : BaseService<TDtoModel, TEntity, TPrimaryKey>, IUserBaseService<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey>
         where TDtoModel : IDto<TPrimaryKey>, new()
-        where TEntity : IBaseIdentityModel<TPrimaryKey>, new()
-        where TUser : IBaseApplicationUser<TUserPrimaryKey>
+        where TEntity : IBaseIdentityModel<TPrimaryKey>, new()        
     {
-        protected new virtual IUserBasedRepository<TDtoModel, TEntity, TPrimaryKey, TUser, TUserPrimaryKey> Repository { get; private set; }
+        protected new virtual IUserBasedRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> Repository { get; private set; }
 
-        public TUser User { get; private set; }
+        public IBaseApplicationUser<TUserPrimaryKey> User { get; private set; }
 
         public UserBasedService(
-            IUserBasedRepository<TDtoModel, TEntity, TPrimaryKey, TUser, TUserPrimaryKey> repository,
+            IUserBasedRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> repository,
             IGraniteMapper mapper
             ) : base(repository, mapper)
         {
             Repository = repository;
         }
 
-        public virtual void SetUser(TUser user)
+        public virtual void SetUser(IBaseApplicationUser<TUserPrimaryKey> user)
         {
             if (user != null)
             {

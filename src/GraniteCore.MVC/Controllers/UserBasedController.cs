@@ -10,14 +10,14 @@ namespace GraniteCore.MVC.Controllers
         where TUser : class, IBaseApplicationUser<TUserPrimaryKey>
     {
         protected UserManager<TUser> UserManager { get; private set; }
-        protected TUser ApplicationUser { get; private set; }
-        protected IUserModifierService<TUser, TUserPrimaryKey> UserModifierService { get; private set; }
+        protected IBaseApplicationUser<TUserPrimaryKey> ApplicationUser { get; private set; }
+        protected IUserModifierService<TUserPrimaryKey> UserModifierService { get; private set; }
 
         public UserBasedController( 
             IGraniteMapper mapper,
             ILogger<TCategoryName> logger, 
             UserManager<TUser> userManager,
-            IUserModifierService<TUser, TUserPrimaryKey> userModifier
+            IUserModifierService<TUserPrimaryKey> userModifier
             ) : base (mapper, logger)
         {
             UserManager = userManager;
