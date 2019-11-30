@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System;
+using System.Diagnostics;
 
 namespace GraniteCore.EntityFrameworkCore
 {
     public class UserBasedRepository<TDtoModel, TEntity, TPrimaryKey, TUser, TUserPrimaryKey> : BaseRepository<TDtoModel, TEntity, TPrimaryKey>, IUserBasedRepository<TDtoModel, TEntity, TPrimaryKey, TUser, TUserPrimaryKey>
-        where TDtoModel : class, IDto<TPrimaryKey>, new()
+        where TDtoModel : IDto<TPrimaryKey>, new()
         where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
-        where TUser : class, IBaseApplicationUser<TUserPrimaryKey>
+        where TUser : IBaseApplicationUser<TUserPrimaryKey>
     {
         public UserBasedRepository(
             DbContext dbContext,
@@ -18,10 +19,10 @@ namespace GraniteCore.EntityFrameworkCore
 
         #region Public CRUD methods
         
-        public virtual async Task<TDtoModel> Create(TDtoModel dtoModel, TUser user)
+        public new virtual async Task<TDtoModel> Create(TDtoModel dtoModel, TUser user)
         {
-            if (user.ID == null)
-                throw new ArgumentException("CreatedBy is not set");
+            if (user == null)
+                throw new ArgumentException("CreatedBy User is not set");
 
             if (dtoModel == null)
                 throw new ArgumentException("DtoModel is not set");
@@ -32,12 +33,14 @@ namespace GraniteCore.EntityFrameworkCore
 
             if (dtoModel is IUserBasedDto<TPrimaryKey, TUser, TUserPrimaryKey> userBasedtoUpdated)
             {
+                Debugger.Log(1,"", "Writing DTO fields");
                 setCreatedFields(userBasedtoUpdated, user.ID);
                 setLastUpdatedFields(userBasedtoUpdated, user.ID);
             }
 
             if (entity is IUserBasedModel<TPrimaryKey, TUser, TUserPrimaryKey> userBaseEntity)
             {
+                Debugger.Log(1, "", "Writing ENTITY fields");
                 setCreatedFields(userBaseEntity, user.ID);
                 setLastUpdatedFields(userBaseEntity, user.ID);
             }
@@ -50,8 +53,11 @@ namespace GraniteCore.EntityFrameworkCore
             return dtoModel;
         }
 
-        public virtual async Task Update(TPrimaryKey id, TDtoModel dtoUpdated, TUser user)
+        public new virtual async Task Update(TPrimaryKey id, TDtoModel dtoUpdated, TUser user)
         {
+            if (user == null)
+                throw new ArgumentException("User is not set");
+
             if (dtoUpdated is IUserBasedDto<TPrimaryKey, TUser, TUserPrimaryKey> userBasedtoUpdated)
                 setLastUpdatedFields(userBasedtoUpdated, user.ID);
 
@@ -63,7 +69,7 @@ namespace GraniteCore.EntityFrameworkCore
             await DbContext.SaveChangesAsync();
         }
 
-        public virtual async Task Delete(TPrimaryKey id, TUser user)
+        public new virtual async Task Delete(TPrimaryKey id, TUser user)
         {
             var entity = await GetByIDIncludeProperties(id);
             if (entity == null)

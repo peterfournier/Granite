@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 namespace GraniteCore
 {
     public abstract class UserBasedService<TDtoModel, TEntity, TPrimaryKey, TUser, TUserPrimaryKey> : BaseService<TDtoModel, TEntity, TPrimaryKey>, IUserBaseService<TDtoModel, TEntity, TPrimaryKey, TUser, TUserPrimaryKey>
-        where TDtoModel : class, IDto<TPrimaryKey>, new()
-        where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
-        where TUser : class, IBaseApplicationUser<TUserPrimaryKey>
+        where TDtoModel : IDto<TPrimaryKey>, new()
+        where TEntity : IBaseIdentityModel<TPrimaryKey>, new()
+        where TUser : IBaseApplicationUser<TUserPrimaryKey>
     {
         protected new virtual IUserBasedRepository<TDtoModel, TEntity, TPrimaryKey, TUser, TUserPrimaryKey> Repository { get; private set; }
 
@@ -22,12 +22,15 @@ namespace GraniteCore
 
         public virtual void SetUser(TUser user)
         {
-            User = user ?? throw new ArgumentNullException(nameof(user));
+            if (user != null)
+            {
+                User = user;
+            }
         }
 
-        public new virtual Task<TDtoModel> Create(TDtoModel entity)
+        public new virtual Task<TDtoModel> Create(TDtoModel dtoModel)
         {
-            return Repository.Create(entity, User);
+            return Repository.Create(dtoModel, User);
         }
 
         public new virtual Task Delete(TPrimaryKey id)
@@ -35,9 +38,9 @@ namespace GraniteCore
             return Repository.Delete(id, User);
         }
 
-        public new virtual Task Update(TPrimaryKey id, TDtoModel entity)
+        public new virtual Task Update(TPrimaryKey id, TDtoModel dtoModel)
         {
-            return Repository.Update(id, entity, User);
+            return Repository.Update(id, dtoModel, User);
         }
     }
 }

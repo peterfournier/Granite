@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 namespace GraniteCore
 {
     public abstract class BaseService<TDtoModel, TEntity, TPrimaryKey> : IBaseService<TDtoModel, TEntity, TPrimaryKey>
-        where TDtoModel : class, IDto<TPrimaryKey>, new()
-        where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
+        where TDtoModel : IDto<TPrimaryKey>, new()
+        where TEntity : IBaseIdentityModel<TPrimaryKey>, new()
     {
         protected virtual IBaseRepository<TDtoModel, TEntity, TPrimaryKey> Repository { get; private set; }
         protected virtual IGraniteMapper Mapper { get; private set; }

@@ -7,7 +7,7 @@ using System;
 namespace GraniteCore.EntityFrameworkCore
 {
     public class BaseRepository<TDtoModel, TEntity, TPrimaryKey> : IBaseRepository<TDtoModel, TEntity, TPrimaryKey>
-        where TDtoModel : class, IDto<TPrimaryKey>, new()
+        where TDtoModel : IDto<TPrimaryKey>, new()
         where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
     {
         protected internal readonly DbContext DbContext;

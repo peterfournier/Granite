@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 namespace GraniteCore
 {
     public interface IUserBaseService<TDtoModel, TEntity, TPrimaryKey, TUser, TUserPrimaryKey> : IUserModifierService<TUser, TUserPrimaryKey>
-        where TDtoModel : class, IDto<TPrimaryKey>, new()
-        where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
-        where TUser : class, IBaseApplicationUser<TUserPrimaryKey>
+        where TDtoModel : IDto<TPrimaryKey>, new()
+        where TEntity : IBaseIdentityModel<TPrimaryKey>, new()
+        where TUser : IBaseApplicationUser<TUserPrimaryKey>
     {
         Task<TDtoModel> Create(TDtoModel dtoModel);
         Task Delete(TPrimaryKey id);

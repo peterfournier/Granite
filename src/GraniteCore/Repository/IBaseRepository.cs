@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 namespace GraniteCore
 {
     public interface IBaseRepository<TDtoModel, TEntity ,TPrimaryKey>        
-        where TDtoModel : class, IDto<TPrimaryKey>, new()
-        where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
+        where TDtoModel : IDto<TPrimaryKey>, new()
+        where TEntity : IBaseIdentityModel<TPrimaryKey>, new()
     {
         IQueryable<TDtoModel> GetAll();
-        Task<TDtoModel> Create(TDtoModel entity);
+        Task<TDtoModel> Create(TDtoModel dtoModel);
         Task Delete(TPrimaryKey id);
-        Task Update(TPrimaryKey id, TDtoModel entity);
+        Task Update(TPrimaryKey id, TDtoModel dtoModel);
         Task<TDtoModel> GetByID(TPrimaryKey id);
         Task<TDtoModel> GetById(TPrimaryKey id, params Expression<Func<TEntity, object>>[] includeProperties);
     }
