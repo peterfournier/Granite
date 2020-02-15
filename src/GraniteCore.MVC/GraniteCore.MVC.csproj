@@ -10,8 +10,8 @@
     <PackageProjectUrl>https://github.com/peterfournier/Granite</PackageProjectUrl>
     <RepositoryUrl>https://github.com/peterfournier/Granite</RepositoryUrl>
     <PackageTags>.NETCore AspNetCore MVC boilerplate MVC</PackageTags>
-    <PackageReleaseNotes>UserBasedController now will set the user in the service layer</PackageReleaseNotes>
-    <Version>2.2.0-alpha</Version>
+    <PackageReleaseNotes>Added a new contructor for a UserBasedController that accepts a collection of services that required a User</PackageReleaseNotes>
+    <Version>2.2.1-alpha</Version>
     <PackageIconUrl>https://imgur.com/le5T8go.png</PackageIconUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <OutputPath>C:\Projects\Local Nuget</OutputPath>
