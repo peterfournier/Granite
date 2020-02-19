@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraniteCore", "GraniteCore\GraniteCore.csproj", "{11D2CE26-2AFA-4EE1-A86E-D882D717D645}"
 EndProject
@@ -22,7 +22,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCars", "..\samples\MyCars
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraniteCore.MVC", "GraniteCore.MVC\GraniteCore.MVC.csproj", "{A6A29364-DEC2-44DB-BC24-7CD3F7EC7A25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraniteCore.RavenDB", "GraniteCore.RavenDB\GraniteCore.RavenDB.csproj", "{D7A39905-3DE2-437D-BC1D-32346D16079D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraniteCore.RavenDB", "GraniteCore.RavenDB\GraniteCore.RavenDB.csproj", "{D7A39905-3DE2-437D-BC1D-32346D16079D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCars.Api", "..\samples\MyCars.Api\MyCars.Api.csproj", "{E791E30C-0495-41E4-864C-C3AAA71EDF58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,12 +56,17 @@ Global
 		{D7A39905-3DE2-437D-BC1D-32346D16079D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7A39905-3DE2-437D-BC1D-32346D16079D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7A39905-3DE2-437D-BC1D-32346D16079D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E791E30C-0495-41E4-864C-C3AAA71EDF58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E791E30C-0495-41E4-864C-C3AAA71EDF58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E791E30C-0495-41E4-864C-C3AAA71EDF58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E791E30C-0495-41E4-864C-C3AAA71EDF58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8E61CF5B-30AC-49B2-8359-2ED6B58C5290} = {AF5D236F-CDD8-41FF-9643-411BFD1FF5E5}
+		{E791E30C-0495-41E4-864C-C3AAA71EDF58} = {AF5D236F-CDD8-41FF-9643-411BFD1FF5E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2EECD537-6639-432F-94E7-48191B5599B4}
