@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
 using System;
 
 namespace MyCars.Api
-{
+{    
     public class WeatherForecast
     {
         public DateTime Date { get; set; }

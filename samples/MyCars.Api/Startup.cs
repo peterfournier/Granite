@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +27,27 @@ namespace MyCars.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            //services.AddAuthorization(options =>
+            //{
+            //    options.DefaultPolicy = new AuthorizationPolicyBuilder()
+            //      .RequireAuthenticatedUser()
+            //      .Build();
+            //});
+
+            addJWTAuthentication(services);
+        }
+
+        private void addJWTAuthentication(IServiceCollection services)
+        {
+            services.AddAuthentication("Bearer")
+               .AddJwtBearer("Bearer", options =>
+               {
+                   options.Authority = "http://localhost:58174";
+                   options.RequireHttpsMetadata = false;
+
+                   options.Audience = "api1";
+               });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +61,8 @@ namespace MyCars.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

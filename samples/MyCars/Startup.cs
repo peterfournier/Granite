@@ -4,7 +4,6 @@ using GraniteCore.EntityFrameworkCore;
 using GraniteCore.MVC.ViewModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +17,6 @@ using Microsoft.Extensions.Hosting;
 using GraniteCore.RavenDB;
 using Raven.Client.Documents;
 using Microsoft.AspNetCore.Authorization;
-using System;
 using MyCars.ServerConfigs;
 
 namespace MyCars
@@ -49,8 +47,32 @@ namespace MyCars
             });
 
             addIdentityServer(services);
+            addGraniteCore(services);
+        }
+        private void addDatabaseContext(IServiceCollection services)
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                            options.UseSqlServer(
+                                Configuration.GetConnectionString("DefaultConnection")));
+        }
 
-            // GraniteCore install
+        private static void addAspNetIdentityWithGraniteCore(IServiceCollection services)
+        {
+            services.AddDefaultIdentity<GraniteCoreApplicationUser>(
+                             options => options.SignIn.RequireConfirmedAccount = true) // GraniteCore install
+                            .AddEntityFrameworkStores<ApplicationDbContext>();
+        }
+
+        private void addIdentityServer(IServiceCollection services)
+        {
+            var builder = services.AddIdentityServer()
+                .AddInMemoryApiResources(IdentityServerConfig.Apis)
+                .AddInMemoryClients(IdentityServerConfig.Clients);
+
+            builder.AddDeveloperSigningCredential();
+        }
+        private static void addGraniteCore(IServiceCollection services)
+        {
             services.AddGraniteEntityFrameworkCore();
             //services.AddGraniteRavenDB(() => new DocumentStore()
             //{
@@ -73,31 +95,6 @@ namespace MyCars
             services.AddScoped<ICustomerService, CustomerService>();
             // Use Mock
             //services.AddSingleton(typeof(IBaseRepository<,,,>), typeof(MockRepository<,,,>));
-            // testing commits...
-            // end GraniteCore install
-        }
-
-        private void addIdentityServer(IServiceCollection services)
-        {
-            var builder = services.AddIdentityServer()
-                .AddInMemoryApiResources(IdentityServerConfig.Apis)
-                .AddInMemoryClients(IdentityServerConfig.Clients);
-
-            builder.AddDeveloperSigningCredential();
-        }
-
-        private static void addAspNetIdentityWithGraniteCore(IServiceCollection services)
-        {
-            services.AddDefaultIdentity<GraniteCoreApplicationUser>(
-                             options => options.SignIn.RequireConfirmedAccount = true) // GraniteCore install
-                            .AddEntityFrameworkStores<ApplicationDbContext>();
-        }
-
-        private void addDatabaseContext(IServiceCollection services)
-        {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                            options.UseSqlServer(
-                                Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
