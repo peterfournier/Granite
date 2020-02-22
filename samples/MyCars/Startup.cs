@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +16,7 @@ using MyCars.Domain.DTOs;
 using MyCars.Domain.Models;
 using MyCars.Domain.ViewModels;
 using MyCars.Services;
+using Microsoft.Extensions.Hosting;
 using GraniteCore.RavenDB;
 using Raven.Client.Documents;
 
@@ -24,6 +24,8 @@ namespace MyCars
 {
     public class Startup
     {
+        static readonly string _RequireAuthenticatedUserPolicy =
+                            "RequireAuthenticatedUserPolicy";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -34,6 +36,8 @@ namespace MyCars
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRazorPages();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -46,11 +50,9 @@ namespace MyCars
                     Configuration.GetConnectionString("DefaultConnection")));
 
 
-            services.AddDefaultIdentity<GraniteCoreApplicationUser>() // GraniteCore install
-                .AddDefaultUI(UIFramework.Bootstrap4)
+            services.AddDefaultIdentity<GraniteCoreApplicationUser>(
+                 options => options.SignIn.RequireConfirmedAccount = true) // GraniteCore install
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // GraniteCore install
             services.AddGraniteEntityFrameworkCore();
@@ -80,7 +82,7 @@ namespace MyCars
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -98,13 +100,14 @@ namespace MyCars
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseAuthentication();
+            app.UseRouting();
 
-            app.UseMvc(routes =>
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute().RequireAuthorization();
+                endpoints.MapRazorPages();
             });
         }
     }

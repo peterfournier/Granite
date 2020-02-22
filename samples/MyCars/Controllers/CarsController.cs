@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using GraniteCore;
 using GraniteCore.MVC.Controllers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,7 @@ using MyCars.Services;
 
 namespace MyCars.Controllers
 {
+    [AllowAnonymous]
     public class CarsController : BaseController<CarsController>
     {
         private readonly ICarService _carService;
