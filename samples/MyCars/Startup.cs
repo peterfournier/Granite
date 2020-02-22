@@ -47,6 +47,7 @@ namespace MyCars
             });
 
             addIdentityServer(services);
+
             addGraniteCore(services);
         }
         private void addDatabaseContext(IServiceCollection services)
@@ -66,8 +67,10 @@ namespace MyCars
         private void addIdentityServer(IServiceCollection services)
         {
             var builder = services.AddIdentityServer()
-                .AddInMemoryApiResources(IdentityServerConfig.Apis)
-                .AddInMemoryClients(IdentityServerConfig.Clients);
+                .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
+                .AddInMemoryApiResources(IdentityServerConfig.ApiResources)
+                .AddInMemoryClients(IdentityServerConfig.Clients)
+            ;
 
             builder.AddDeveloperSigningCredential();
         }
@@ -129,6 +132,7 @@ namespace MyCars
             });
         }
     }
+
 
 
     // normally this would be in different folder

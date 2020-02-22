@@ -1,4 +1,5 @@
-﻿using IdentityServer4.Models;
+﻿using IdentityServer4;
+using IdentityServer4.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,18 @@ namespace MyCars.ServerConfigs
 {
     public class IdentityServerConfig
     {
-        public static IEnumerable<ApiResource> Apis =>
+        public static IEnumerable<ApiResource> ApiResources =>
             new List<ApiResource>
             {
                 new ApiResource("CarAPI", "My Cars API")
             };
+
+        public static IEnumerable<IdentityResource> IdentityResources =>
+          new List<IdentityResource>
+          {
+            new IdentityResources.OpenId(),
+            new IdentityResources.Profile(),
+          };
 
         public static IEnumerable<Client> Clients =>
             new List<Client>
@@ -20,17 +28,11 @@ namespace MyCars.ServerConfigs
                 new Client
                 {
                     ClientId = "testclient",
-
-                    // no interactive user, use the clientid/secret for authentication
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                    // secret for authentication
                     ClientSecrets =
                     {
                         new Secret("Test123$".Sha256())
                     },
-
-                    // scopes that client has access to
                     AllowedScopes = { "CarAPI" }
                 }
             };
