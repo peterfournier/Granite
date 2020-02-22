@@ -46,7 +46,7 @@ namespace MyCars.Api
                    options.Authority = "http://localhost:58174";
                    options.RequireHttpsMetadata = false;
 
-                   options.Audience = "api1";
+                   options.Audience = "CarAPI";
                });
         }
 

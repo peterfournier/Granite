@@ -11,7 +11,7 @@ namespace MyCars.ServerConfigs
         public static IEnumerable<ApiResource> Apis =>
             new List<ApiResource>
             {
-                new ApiResource("api1", "My API")
+                new ApiResource("CarAPI", "My Cars API")
             };
 
         public static IEnumerable<Client> Clients =>
@@ -19,7 +19,7 @@ namespace MyCars.ServerConfigs
             {
                 new Client
                 {
-                    ClientId = "client",
+                    ClientId = "testclient",
 
                     // no interactive user, use the clientid/secret for authentication
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
@@ -27,11 +27,11 @@ namespace MyCars.ServerConfigs
                     // secret for authentication
                     ClientSecrets =
                     {
-                        new Secret("secret".Sha256())
+                        new Secret("Test123$".Sha256())
                     },
 
                     // scopes that client has access to
-                    AllowedScopes = { "api1" }
+                    AllowedScopes = { "CarAPI" }
                 }
             };
     }
