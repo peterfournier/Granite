@@ -5,8 +5,6 @@ using GraniteCore.MVC.ViewModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,13 +17,14 @@ using MyCars.Services;
 using Microsoft.Extensions.Hosting;
 using GraniteCore.RavenDB;
 using Raven.Client.Documents;
+using Microsoft.AspNetCore.Authorization;
+using System;
+using MyCars.ServerConfigs;
 
 namespace MyCars
 {
     public class Startup
     {
-        static readonly string _RequireAuthenticatedUserPolicy =
-                            "RequireAuthenticatedUserPolicy";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -36,23 +35,20 @@ namespace MyCars
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            addDatabaseContext(services);
 
-            services.Configure<CookiePolicyOptions>(options =>
+            addAspNetIdentityWithGraniteCore(services);
+
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddAuthorization(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                  .RequireAuthenticatedUser()
+                  .Build();
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-
-
-            services.AddDefaultIdentity<GraniteCoreApplicationUser>(
-                 options => options.SignIn.RequireConfirmedAccount = true) // GraniteCore install
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            addIdentityServer(services);
 
             // GraniteCore install
             services.AddGraniteEntityFrameworkCore();
@@ -81,6 +77,29 @@ namespace MyCars
             // end GraniteCore install
         }
 
+        private void addIdentityServer(IServiceCollection services)
+        {
+            var builder = services.AddIdentityServer()
+                .AddInMemoryApiResources(IdentityServerConfig.Apis)
+                .AddInMemoryClients(IdentityServerConfig.Clients);
+
+            builder.AddDeveloperSigningCredential();
+        }
+
+        private static void addAspNetIdentityWithGraniteCore(IServiceCollection services)
+        {
+            services.AddDefaultIdentity<GraniteCoreApplicationUser>(
+                             options => options.SignIn.RequireConfirmedAccount = true) // GraniteCore install
+                            .AddEntityFrameworkStores<ApplicationDbContext>();
+        }
+
+        private void addDatabaseContext(IServiceCollection services)
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                            options.UseSqlServer(
+                                Configuration.GetConnectionString("DefaultConnection")));
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -101,6 +120,8 @@ namespace MyCars
             app.UseCookiePolicy();
 
             app.UseRouting();
+
+            app.UseIdentityServer();
 
             app.UseAuthorization();
 
