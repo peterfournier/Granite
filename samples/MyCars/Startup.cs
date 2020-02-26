@@ -14,11 +14,7 @@ using MyCars.Domain.Models;
 using MyCars.Domain.ViewModels;
 using MyCars.Services;
 using Microsoft.Extensions.Hosting;
-using GraniteCore.RavenDB;
-using Raven.Client.Documents;
-using Microsoft.AspNetCore.Authorization;
 using MyCars.ServerConfigs;
-using System;
 using Microsoft.AspNetCore.Http;
 
 namespace MyCars
