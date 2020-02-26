@@ -10,13 +10,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MyCars.Areas.Identity;
 using MyCars.Domain.DTOs;
+using MyCars.Domain.Models;
 using MyCars.Domain.ViewModels;
 using MyCars.Services;
 
 namespace MyCars.Controllers
 {
     [Authorize]
-    public class CustomersController : UserBasedController<CustomersController, GraniteCoreApplicationUser, string>
+    public class CustomersController : UserBasedController<CustomersController, ApplicationUser, string>
     {
         private readonly ICustomerService _customerService;
 
@@ -24,7 +25,7 @@ namespace MyCars.Controllers
             ICustomerService customerService,
             IGraniteMapper graniteMapper,
             ILogger<CustomersController> logger,
-            UserManager<GraniteCoreApplicationUser> userManager
+            UserManager<ApplicationUser> userManager
             ) : base(graniteMapper, logger, userManager, customerService)
         {
             _customerService = customerService;

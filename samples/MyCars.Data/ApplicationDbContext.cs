@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using MyCars.Areas.Identity;
+﻿using Microsoft.EntityFrameworkCore;
 using MyCars.Domain.Models;
 
 namespace MyCars.Data
 {
     // GraniteCore install <GraniteCoreApplicationUser, IdentityRole, string>
-    public class ApplicationDbContext : IdentityDbContext<GraniteCoreApplicationUser, IdentityRole, string>
+    public class ApplicationDbContext : DbContext
     {
         public DbSet<CarEntity> Cars { get; set; }
         public DbSet<CustomerEntity> Customers { get; set; }
+
+        public DbSet<ApplicationUser> Users { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -21,10 +20,10 @@ namespace MyCars.Data
             base.OnModelCreating(builder);
 
             builder.Entity<CustomerEntity>()
-                .HasOne(x => x.CreatedByUser as GraniteCoreApplicationUser);
+                .HasOne(x => x.CreatedByUser as ApplicationUser);
 
             builder.Entity<CustomerEntity>()
-                .HasOne(x => x.LastModifiedByUser as GraniteCoreApplicationUser);
+                .HasOne(x => x.LastModifiedByUser as ApplicationUser);
         }
     }
 }

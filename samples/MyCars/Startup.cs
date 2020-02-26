@@ -18,6 +18,8 @@ using GraniteCore.RavenDB;
 using Raven.Client.Documents;
 using Microsoft.AspNetCore.Authorization;
 using MyCars.ServerConfigs;
+using System;
+using Microsoft.AspNetCore.Http;
 
 namespace MyCars
 {
@@ -39,29 +41,37 @@ namespace MyCars
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-            services.AddAuthorization(options =>
-            {
-                options.DefaultPolicy = new AuthorizationPolicyBuilder()
-                  .RequireAuthenticatedUser()
-                  .Build();
-            });
 
             addIdentityServer(services);
 
             addGraniteCore(services);
         }
+
+        private void addCookieAuthenication(IServiceCollection services)
+        {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+        }
+
         private void addDatabaseContext(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<AspNetCoreIdentityDbContext>(options =>
                             options.UseSqlServer(
                                 Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         private static void addAspNetIdentityWithGraniteCore(IServiceCollection services)
         {
             services.AddDefaultIdentity<GraniteCoreApplicationUser>(
-                             options => options.SignIn.RequireConfirmedAccount = true) // GraniteCore install
-                            .AddEntityFrameworkStores<ApplicationDbContext>();
+                             // options => options.SignIn.RequireConfirmedAccount = false
+                             )
+                            .AddEntityFrameworkStores<AspNetCoreIdentityDbContext>();
         }
 
         private void addIdentityServer(IServiceCollection services)
@@ -70,13 +80,16 @@ namespace MyCars
                 .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
                 .AddInMemoryApiResources(IdentityServerConfig.ApiResources)
                 .AddInMemoryClients(IdentityServerConfig.Clients)
+                .AddAspNetIdentity<GraniteCoreApplicationUser>();
             ;
 
             builder.AddDeveloperSigningCredential();
         }
+
         private static void addGraniteCore(IServiceCollection services)
         {
             services.AddGraniteEntityFrameworkCore();
+            // for RavenDB
             //services.AddGraniteRavenDB(() => new DocumentStore()
             //{
             //    Urls = new[]
@@ -106,7 +119,7 @@ namespace MyCars
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                // app.UseDatabaseErrorPage(); EFCore sql server
             }
             else
             {
@@ -117,7 +130,6 @@ namespace MyCars
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
             app.UseRouting();
 
@@ -163,7 +175,7 @@ namespace MyCars
 
         public static void CreateUserMapping(this IMapperConfigurationExpression config)
         {
-            config.CreateMap<GraniteCoreApplicationUser, UserViewModel>()
+            config.CreateMap<ApplicationUser, UserViewModel>()
                     .ReverseMap()
                     ;
         }

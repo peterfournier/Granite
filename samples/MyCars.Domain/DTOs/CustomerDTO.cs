@@ -9,8 +9,5 @@ namespace MyCars.Domain.DTOs
         public string LastName { get; set; }
         public int Age { get; set; }
         public DateTime InceptionDate { get; set; }
-
-        //public new GraniteCoreApplicationUser CreatedByUser { get; set; }
-        //public new GraniteCoreApplicationUser LastModifiedByUser { get; set; }
     }
 }

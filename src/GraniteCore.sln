@@ -24,7 +24,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraniteCore.MVC", "GraniteC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraniteCore.RavenDB", "GraniteCore.RavenDB\GraniteCore.RavenDB.csproj", "{D7A39905-3DE2-437D-BC1D-32346D16079D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCars.Api", "..\samples\MyCars.Api\MyCars.Api.csproj", "{E791E30C-0495-41E4-864C-C3AAA71EDF58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCars.Api", "..\samples\MyCars.Api\MyCars.Api.csproj", "{E791E30C-0495-41E4-864C-C3AAA71EDF58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCars.Services", "..\samples\MyCars.Services\MyCars.Services.csproj", "{39129869-006C-4E2C-B7AA-8845F60FDD92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCars.Domain", "..\samples\MyCars.Domain\MyCars.Domain.csproj", "{8D247ED4-1E10-4B81-93E0-3EF4F223A297}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCars.Data", "..\samples\MyCars.Data\MyCars.Data.csproj", "{7E9D2C7E-1870-4813-B81D-5292E90D2158}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +66,18 @@ Global
 		{E791E30C-0495-41E4-864C-C3AAA71EDF58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E791E30C-0495-41E4-864C-C3AAA71EDF58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E791E30C-0495-41E4-864C-C3AAA71EDF58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39129869-006C-4E2C-B7AA-8845F60FDD92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39129869-006C-4E2C-B7AA-8845F60FDD92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39129869-006C-4E2C-B7AA-8845F60FDD92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39129869-006C-4E2C-B7AA-8845F60FDD92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D247ED4-1E10-4B81-93E0-3EF4F223A297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D247ED4-1E10-4B81-93E0-3EF4F223A297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D247ED4-1E10-4B81-93E0-3EF4F223A297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D247ED4-1E10-4B81-93E0-3EF4F223A297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E9D2C7E-1870-4813-B81D-5292E90D2158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E9D2C7E-1870-4813-B81D-5292E90D2158}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E9D2C7E-1870-4813-B81D-5292E90D2158}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E9D2C7E-1870-4813-B81D-5292E90D2158}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +85,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8E61CF5B-30AC-49B2-8359-2ED6B58C5290} = {AF5D236F-CDD8-41FF-9643-411BFD1FF5E5}
 		{E791E30C-0495-41E4-864C-C3AAA71EDF58} = {AF5D236F-CDD8-41FF-9643-411BFD1FF5E5}
+		{39129869-006C-4E2C-B7AA-8845F60FDD92} = {AF5D236F-CDD8-41FF-9643-411BFD1FF5E5}
+		{8D247ED4-1E10-4B81-93E0-3EF4F223A297} = {AF5D236F-CDD8-41FF-9643-411BFD1FF5E5}
+		{7E9D2C7E-1870-4813-B81D-5292E90D2158} = {AF5D236F-CDD8-41FF-9643-411BFD1FF5E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2EECD537-6639-432F-94E7-48191B5599B4}

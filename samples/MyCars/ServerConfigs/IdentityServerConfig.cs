@@ -1,9 +1,5 @@
-﻿using IdentityServer4;
-using IdentityServer4.Models;
-using System;
+﻿using IdentityServer4.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyCars.ServerConfigs
 {
