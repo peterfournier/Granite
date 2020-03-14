@@ -48,7 +48,7 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            var customerViewModel = await _customerService.GetById(
+            var customerViewModel = await _customerService.GetByID(
                 id.Value, 
                 x => x.LastModifiedByUser
                 );
@@ -91,7 +91,7 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            var customerViewModel = await _customerService.GetById(id.Value);
+            var customerViewModel = await _customerService.GetByID(id.Value);
             if (customerViewModel == null)
             {
                 return NotFound();
@@ -141,7 +141,7 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            var customerViewModel = await _customerService.GetById(id.Value);
+            var customerViewModel = await _customerService.GetByID(id.Value);
 
             if (customerViewModel == null)
             {

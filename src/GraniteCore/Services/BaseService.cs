@@ -41,12 +41,19 @@ namespace GraniteCore
             return Repository.Update(id, dtoModel);
         }
 
-        public virtual Task<TDtoModel> GetById(
+        public virtual Task<TDtoModel> GetByID(
+            TPrimaryKey id
+            )
+        {
+            return Repository.GetByID(id);
+        }
+
+        public virtual Task<TDtoModel> GetByID(
             TPrimaryKey id,
             params Expression<Func<TEntity, object>>[] includeProperties
             )
         {
-            return Repository.GetById(id, includeProperties);
+            return Repository.GetByID(id, includeProperties);
         }
     }
 }

@@ -59,7 +59,7 @@ namespace GraniteCore.RavenDB
             return Mapper.Map<TEntity, TDtoModel>(entity);
         }
 
-        public virtual async Task<TDtoModel> GetById(
+        public virtual async Task<TDtoModel> GetByID(
             TPrimaryKey id,
             params Expression<Func<TEntity, object>>[] includeProperties
             )

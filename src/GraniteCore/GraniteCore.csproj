@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.2.0-alpha</Version>
+    <Version>2.2.1-alpha</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/peterfournier/Granite</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/peterfournier/Granite/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/peterfournier/Granite</RepositoryUrl>
     <RepositoryType />
-    <PackageReleaseNotes>Added a new UserBased model architecture.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added a method overload to the BaserService</PackageReleaseNotes>
     <PackageIconUrl>https://i.imgur.com/tODd4nj.png</PackageIconUrl>
     <Description>.Net Core boilerplate and middle tier framework</Description>
     <Copyright>Copyright 2019</Copyright>

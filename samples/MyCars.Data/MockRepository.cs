@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MyCars.Data
 {
     // GraniteCore install
-    public class MockRepository<TDtoModel, TEntity, TPrimaryKey, TUserID> : IBaseRepository<TDtoModel, TEntity, TPrimaryKey>
+    public class MockRepository<TDtoModel, TEntity, TPrimaryKey> : IBaseRepository<TDtoModel, TEntity, TPrimaryKey>
         where TDtoModel : class, IDto<TPrimaryKey>, new()
         where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
     {
@@ -56,7 +56,7 @@ namespace MyCars.Data
             });
         }
 
-        public Task<TDtoModel> GetById(TPrimaryKey id, params Expression<Func<TEntity, object>>[] includeProperties)
+        public Task<TDtoModel> GetByID(TPrimaryKey id, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             throw new NotImplementedException("Parameter 'includeProperties' not supported");
         }

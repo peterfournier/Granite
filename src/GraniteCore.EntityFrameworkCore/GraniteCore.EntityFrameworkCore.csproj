@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.2.0-alpha</Version>
+    <Version>2.2.1-alpha</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/peterfournier/Granite</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/peterfournier/Granite/blob/master/LICENSE</PackageLicenseUrl>
@@ -12,7 +12,7 @@
     <Copyright>Copyright 2019</Copyright>
     <Description>EntityFrameworkCore support for GraniteCore</Description>
     <PackageTags>.NETCore AspNetCore MVC boilerplate EntityFramework EntityFrameworkCore EFCore</PackageTags>
-    <PackageReleaseNotes>Added a new UserBased model architecture.</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated a method signature</PackageReleaseNotes>
     <PackageIconUrl>https://imgur.com/RMUx6mA.png</PackageIconUrl>
     <OutputPath>C:\Projects\Local Nuget</OutputPath>
   </PropertyGroup>

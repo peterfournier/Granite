@@ -6,8 +6,8 @@
     <PackageProjectUrl>https://github.com/peterfournier/Granite</PackageProjectUrl>
     <RepositoryUrl>https://github.com/peterfournier/Granite</RepositoryUrl>
     <PackageTags>.NETCore AspNetCore MVC boilerplate RavenDB</PackageTags>
-    <Version>1.0.0-alpha</Version>
-    <PackageReleaseNotes>Initial base repository for GraniteCore using RavenDB</PackageReleaseNotes>
+    <Version>1.0.1-alpha</Version>
+    <PackageReleaseNotes>Updated a method signature</PackageReleaseNotes>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <Company>Software Vets, Inc</Company>
     <Product>GraniteCore.EntityFrameworkCore</Product>

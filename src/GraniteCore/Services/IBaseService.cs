@@ -13,6 +13,7 @@ namespace GraniteCore
         Task<TDtoModel> Create(TDtoModel dtoModel);
         Task Delete(TPrimaryKey id);
         Task Update(TPrimaryKey id, TDtoModel dtoModel);
-        Task<TDtoModel> GetById(TPrimaryKey id, params Expression<Func<TEntity, object>>[] includeProperties);
+        Task<TDtoModel> GetByID(TPrimaryKey id);
+        Task<TDtoModel> GetByID(TPrimaryKey id, params Expression<Func<TEntity, object>>[] includeProperties);
     }
 }

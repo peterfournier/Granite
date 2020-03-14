@@ -40,7 +40,7 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            var carEntity = await _carService.GetById(id.Value);
+            var carEntity = await _carService.GetByID(id.Value);
             if (carEntity == null)
             {
                 return NotFound();
@@ -78,7 +78,7 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            var carEntity = await _carService.GetById(id.Value);
+            var carEntity = await _carService.GetByID(id.Value);
             if (carEntity == null)
             {
                 return NotFound();
@@ -128,7 +128,7 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            var carEntity = await _carService.GetById(id.Value);
+            var carEntity = await _carService.GetByID(id.Value);
             if (carEntity == null)
             {
                 return NotFound();
@@ -148,7 +148,7 @@ namespace MyCars.Controllers
 
         private bool CarEntityExists(Guid id)
         {
-            return _carService.GetById(id) != null;
+            return _carService.GetByID(id) != null;
         }
     }
 }
