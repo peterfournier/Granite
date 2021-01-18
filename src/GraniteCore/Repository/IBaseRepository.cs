@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GraniteCore
 {
-    public interface IBaseRepository<TDtoModel, TEntity ,TPrimaryKey>        
+    public interface IBaseRepository<TDtoModel, TEntity ,TPrimaryKey>
         where TDtoModel : IDto<TPrimaryKey>, new()
         where TEntity : IBaseIdentityModel<TPrimaryKey>, new()
     {

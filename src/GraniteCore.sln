@@ -26,11 +26,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraniteCore.RavenDB", "Gran
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCars.Api", "..\samples\MyCars.Api\MyCars.Api.csproj", "{E791E30C-0495-41E4-864C-C3AAA71EDF58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCars.Services", "..\samples\MyCars.Services\MyCars.Services.csproj", "{39129869-006C-4E2C-B7AA-8845F60FDD92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCars.Services", "..\samples\MyCars.Services\MyCars.Services.csproj", "{39129869-006C-4E2C-B7AA-8845F60FDD92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCars.Domain", "..\samples\MyCars.Domain\MyCars.Domain.csproj", "{8D247ED4-1E10-4B81-93E0-3EF4F223A297}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCars.Domain", "..\samples\MyCars.Domain\MyCars.Domain.csproj", "{8D247ED4-1E10-4B81-93E0-3EF4F223A297}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCars.Data", "..\samples\MyCars.Data\MyCars.Data.csproj", "{7E9D2C7E-1870-4813-B81D-5292E90D2158}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCars.Data", "..\samples\MyCars.Data\MyCars.Data.csproj", "{7E9D2C7E-1870-4813-B81D-5292E90D2158}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraniteCore.LocalFileRepository", "GraniteCore.LocalFileRepository\GraniteCore.LocalFileRepository.csproj", "{0661E9B6-5A68-493A-B7EE-91CA4385EDEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraniteCore.LocalFileRepository.IntegrationTests", "GraniteCore.LocalFileRepository.Tests\GraniteCore.LocalFileRepository.IntegrationTests.csproj", "{95B41515-345F-45AB-84F0-625D45F8E028}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,6 +82,14 @@ Global
 		{7E9D2C7E-1870-4813-B81D-5292E90D2158}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E9D2C7E-1870-4813-B81D-5292E90D2158}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E9D2C7E-1870-4813-B81D-5292E90D2158}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0661E9B6-5A68-493A-B7EE-91CA4385EDEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0661E9B6-5A68-493A-B7EE-91CA4385EDEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0661E9B6-5A68-493A-B7EE-91CA4385EDEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0661E9B6-5A68-493A-B7EE-91CA4385EDEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95B41515-345F-45AB-84F0-625D45F8E028}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95B41515-345F-45AB-84F0-625D45F8E028}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95B41515-345F-45AB-84F0-625D45F8E028}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95B41515-345F-45AB-84F0-625D45F8E028}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
