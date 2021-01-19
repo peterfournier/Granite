@@ -8,26 +8,21 @@ using System.Threading.Tasks;
 namespace MyCars.Data
 {
     // GraniteCore install
-    public class MockRepository<TDtoModel, TEntity, TPrimaryKey> : IBaseRepository<TDtoModel, TEntity, TPrimaryKey>
-        where TDtoModel : class, IDto<TPrimaryKey>, new()
-        where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
+    public class MockRepository<TBaseEntityModel, TPrimaryKey> : IBaseRepository<TBaseEntityModel, TPrimaryKey>
+        where TBaseEntityModel : class, IBaseIdentityModel<TPrimaryKey>, new()
     {
-        private readonly IList<TEntity> _store = new List<TEntity>();
-        protected readonly IGraniteMapper _mapper;
+        private readonly IList<TBaseEntityModel> _store = new List<TBaseEntityModel>();
 
-        public MockRepository(
-            IGraniteMapper mapper
-            )
+        public MockRepository()
         {
-            _mapper = mapper;
         }
 
 
-        public Task<TDtoModel> Create(TDtoModel entity)
+        public Task<TBaseEntityModel> Create(TBaseEntityModel entity)
         {
             return Task.Run(() =>
             {
-                _store.Add(_mapper.Map<TDtoModel, TEntity>(entity));
+                _store.Add(entity);
 
                 return entity;
             });
@@ -43,25 +38,25 @@ namespace MyCars.Data
             });
         }
 
-        public IQueryable<TDtoModel> GetAll()
+        public IQueryable<TBaseEntityModel> GetAll()
         {
-            return  _mapper.Map<TEntity, TDtoModel>(_store.AsQueryable());
+            return  _store.AsQueryable();
         }
 
-        public Task<TDtoModel> GetByID(TPrimaryKey id)
+        public Task<TBaseEntityModel> GetByID(TPrimaryKey id)
         {
             return Task.Run(() =>
             {
-                return _mapper.Map<TEntity, TDtoModel>(_store.FirstOrDefault(x => x.ID.Equals(id)));
+                return _store.FirstOrDefault(x => x.ID.Equals(id));
             });
         }
 
-        public Task<TDtoModel> GetByID(TPrimaryKey id, params Expression<Func<TEntity, object>>[] includeProperties)
+        public Task<TBaseEntityModel> GetByID(TPrimaryKey id, params Expression<Func<TBaseEntityModel, object>>[] includeProperties)
         {
             throw new NotImplementedException("Parameter 'includeProperties' not supported");
         }
 
-        public Task Update(TPrimaryKey id, TDtoModel entity)
+        public Task Update(TPrimaryKey id, TBaseEntityModel entity)
         {
             throw new NotImplementedException();
         }

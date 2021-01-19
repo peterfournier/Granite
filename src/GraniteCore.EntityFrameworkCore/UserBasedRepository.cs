@@ -5,78 +5,68 @@ using System.Diagnostics;
 
 namespace GraniteCore.EntityFrameworkCore
 {
-    public class UserBasedRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> : BaseRepository<TDtoModel, TEntity, TPrimaryKey>, IUserBasedRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey>
-        where TDtoModel : IDto<TPrimaryKey>, new()
-        where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()        
+    public class UserBasedRepository<TBaseEntityModel, TPrimaryKey, TUserPrimaryKey> 
+        : BaseRepository<TBaseEntityModel, TPrimaryKey>, IUserBasedRepository<TBaseEntityModel, TPrimaryKey, TUserPrimaryKey>
+            where TBaseEntityModel : class, IBaseIdentityModel<TPrimaryKey>, new()
     {
         public UserBasedRepository(
             DbContext dbContext,
             IGraniteMapper mapper
-            ) : base (dbContext, mapper)
+            ) : base(dbContext, mapper)
         {
         }
 
         #region Public CRUD methods
         
-        public new virtual async Task<TDtoModel> Create(TDtoModel dtoModel, IBaseApplicationUser<TUserPrimaryKey> user)
+        public new virtual async Task<TBaseEntityModel> Create(TBaseEntityModel entityModel, IBaseApplicationUser<TUserPrimaryKey> user)
         {
             if (user == null)
                 throw new ArgumentException("CreatedBy User is not set");
 
-            if (dtoModel == null)
+            if (entityModel == null)
                 throw new ArgumentException("DtoModel is not set");
 
-            var entity = new TEntity();
-
-            Mapper.Map(dtoModel, entity);
-
-            if (dtoModel is IUserBasedDto<TPrimaryKey, IBaseApplicationUser<TUserPrimaryKey>, TUserPrimaryKey> userBasedtoUpdated)
+            if (entityModel is UserBasedEntityModel<TPrimaryKey, IBaseApplicationUser<TUserPrimaryKey>, TUserPrimaryKey> userBasedtoUpdated)
             {
                 setCreatedFields(userBasedtoUpdated, user.ID);
                 setLastUpdatedFields(userBasedtoUpdated, user.ID);
             }
 
-            if (entity is IUserBasedModel<TPrimaryKey, IBaseApplicationUser<TUserPrimaryKey>, TUserPrimaryKey> userBaseEntity)
-            {
-                setCreatedFields(userBaseEntity, user.ID);
-                setLastUpdatedFields(userBaseEntity, user.ID);
-            }
-
-            await DbContext.Set<TEntity>().AddAsync(entity);
+            await DbContext.Set<TBaseEntityModel>().AddAsync(entityModel);
             await DbContext.SaveChangesAsync();
 
-            dtoModel.ID = entity.ID;
+            entityModel.ID = entityModel.ID;
 
-            return dtoModel;
+            return entityModel;
         }
 
-        public new virtual async Task Update(TPrimaryKey id, TDtoModel dtoUpdated, IBaseApplicationUser<TUserPrimaryKey> user)
+        public virtual async Task Update(TPrimaryKey id, TBaseEntityModel entityModel, IBaseApplicationUser<TUserPrimaryKey> user)
         {
             if (user == null)
                 throw new ArgumentException("User is not set");
 
-            if (dtoUpdated is IUserBasedDto<TPrimaryKey, IBaseApplicationUser<TUserPrimaryKey>, TUserPrimaryKey> userBasedtoUpdated)
+            if (entityModel is UserBasedEntityModel<TPrimaryKey, IBaseApplicationUser<TUserPrimaryKey>, TUserPrimaryKey> userBasedtoUpdated)
                 setLastUpdatedFields(userBasedtoUpdated, user.ID);
 
-            var entity = await SetEntityFieldsFromDto(dtoUpdated);
+            //var entity = await SetEntityFieldsFromUpdateModel(entityModel);
 
-            ignoreFieldsWhenUpdating(entity);
+            ignoreFieldsWhenUpdating(entityModel);
 
-            DbContext.Set<TEntity>().Update(entity); // todo this does not handle partial updates
+            DbContext.Set<TBaseEntityModel>().Update(entityModel); // todo this does not handle partial updates
             await DbContext.SaveChangesAsync();
         }
 
-        public new virtual async Task Delete(TPrimaryKey id, IBaseApplicationUser<TUserPrimaryKey> user)
+        public virtual async Task Delete(TPrimaryKey id, IBaseApplicationUser<TUserPrimaryKey> user)
         {
             var entity = await GetByIDIncludeProperties(id);
             if (entity == null)
                 throw new ArgumentException("Could not find entity");
 
             // todo: changed to a soft delete.
-            if (entity is IUserBasedModel<TPrimaryKey, IBaseApplicationUser<TUserPrimaryKey>, TUserPrimaryKey> userBaseEntity)
+            if (entity is UserBasedEntityModel<TPrimaryKey, IBaseApplicationUser<TUserPrimaryKey>, TUserPrimaryKey> userBaseEntity)
                 setLastUpdatedFields(userBaseEntity, user.ID);
 
-            DbContext.Set<TEntity>().Remove(entity);
+            DbContext.Set<TBaseEntityModel>().Remove(entity);
             await DbContext.SaveChangesAsync();
 
         }
@@ -84,16 +74,16 @@ namespace GraniteCore.EntityFrameworkCore
 
 
         #region Private methods
-        private void ignoreFieldsWhenUpdating(TEntity entity)
+        private void ignoreFieldsWhenUpdating(TBaseEntityModel entity)
         {
-            if (entity is IUserBasedModel<TPrimaryKey, IBaseApplicationUser<TUserPrimaryKey>, TUserPrimaryKey> userBaseEntity)
+            if (entity is UserBasedEntityModel<TPrimaryKey, IBaseApplicationUser<TUserPrimaryKey>, TUserPrimaryKey> userBaseEntity)
             {
                 DbContext.Entry(userBaseEntity).Property(x => x.CreatedByUserID).IsModified = false;
                 DbContext.Entry(userBaseEntity).Property(x => x.CreatedDatetime).IsModified = false;
             }
         }
 
-        private void setCreatedFields(IUserBasedModel<TPrimaryKey, IBaseApplicationUser<TUserPrimaryKey>, TUserPrimaryKey> model, TUserPrimaryKey userID)
+        private void setCreatedFields(UserBasedEntityModel<TPrimaryKey, IBaseApplicationUser<TUserPrimaryKey>, TUserPrimaryKey> model, TUserPrimaryKey userID)
         {
             if (model == null)
                 throw new ArgumentNullException("model is not set");
@@ -101,11 +91,11 @@ namespace GraniteCore.EntityFrameworkCore
             if (userID == null)
                 throw new ArgumentNullException("userID is not set");
 
-            model.CreatedDatetime = DateTime.UtcNow;            
+            model.CreatedDatetime = DateTime.UtcNow;
             model.CreatedByUserID = userID;
         }
 
-        private void setLastUpdatedFields(IUserBasedModel<TPrimaryKey, IBaseApplicationUser<TUserPrimaryKey>, TUserPrimaryKey> model, TUserPrimaryKey userID)
+        private void setLastUpdatedFields(UserBasedEntityModel<TPrimaryKey, IBaseApplicationUser<TUserPrimaryKey>, TUserPrimaryKey> model, TUserPrimaryKey userID)
         {
             if (model == null)
                 throw new ArgumentNullException("model is not set");

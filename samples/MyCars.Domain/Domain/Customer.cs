@@ -1,9 +1,9 @@
 ﻿using System;
 using GraniteCore;
 
-namespace MyCars.Domain.DTOs
+namespace MyCars.Domain
 {
-    public class CustomerDTO : UserBasedDto<Guid, IBaseApplicationUser<string>, string>
+    public class Customer : UserBaseDomainModel<Guid, IBaseApplicationUser<string>, string>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

@@ -6,12 +6,11 @@ using System;
 
 namespace GraniteCore.EntityFrameworkCore
 {
-    public class BaseRepository<TDtoModel, TEntity, TPrimaryKey> : IBaseRepository<TDtoModel, TEntity, TPrimaryKey>
-        where TDtoModel : IDto<TPrimaryKey>, new()
-        where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
+    public class BaseRepository<TBaseEntityModel, TPrimaryKey> : IBaseRepository<TBaseEntityModel, TPrimaryKey>
+        where TBaseEntityModel : class, IBaseIdentityModel<TPrimaryKey>, new()
     {
-        protected internal readonly DbContext DbContext;
         protected internal readonly IGraniteMapper Mapper;
+        protected internal readonly DbContext DbContext;
 
         public BaseRepository(
             DbContext dbContext,
@@ -23,53 +22,43 @@ namespace GraniteCore.EntityFrameworkCore
         }
 
         #region Public CRUD methods
-        public virtual IQueryable<TDtoModel> GetAll()
+        public virtual IQueryable<TBaseEntityModel> GetAll()
         {
-            var set = DbContext.Set<TEntity>()                            
+            var set = DbContext.Set<TBaseEntityModel>()
                             .AsNoTracking()
                             ;
-            return Mapper.Map<TEntity, TDtoModel>(set);
+            return set;
         }
 
-        public virtual async Task<TDtoModel> GetByID(
+        public virtual async Task<TBaseEntityModel> GetByID(
             TPrimaryKey id
             )
         {
             var entity = await GetByIDIncludeProperties(id);
-            return Mapper.Map<TEntity, TDtoModel>(entity);
+            return entity;
         }
 
-        public virtual async Task<TDtoModel> GetByID(
+        public virtual async Task<TBaseEntityModel> GetByID(
             TPrimaryKey id,
-            params Expression<Func<TEntity, object>>[] includeProperties
+            params Expression<Func<TBaseEntityModel, object>>[] includeProperties
             )
         {
             var entity = await GetByIDIncludeProperties(id, includeProperties);
-            return Mapper.Map<TEntity, TDtoModel>(entity);
+            return entity;
         }
 
-        public virtual async Task<TDtoModel> Create(TDtoModel dtoModel)
+        public virtual async Task<TBaseEntityModel> Create(TBaseEntityModel entity)
         {
-            if (dtoModel == null)
-                throw new ArgumentException("DtoModel is not set");
-
-            var entity = new TEntity();
-
-            Mapper.Map(dtoModel, entity);
-
-            await DbContext.Set<TEntity>().AddAsync(entity);
+            await DbContext.Set<TBaseEntityModel>().AddAsync(entity);
             await DbContext.SaveChangesAsync();
 
-            dtoModel.ID = entity.ID;
-
-            return dtoModel;
+            return entity;
         }
 
-        public virtual async Task Update(TPrimaryKey id, TDtoModel dtoUpdated)
+        public virtual async Task Update(TPrimaryKey id, TBaseEntityModel entityToUpdate)
         {
-            var entity = await SetEntityFieldsFromDto(dtoUpdated);
-
-            DbContext.Set<TEntity>().Update(entity); // todo this does not handle partial updates
+            DbContext.Set<TBaseEntityModel>()
+                     .Update(entityToUpdate); // todo this does not handle partial updates
             await DbContext.SaveChangesAsync();
         }
 
@@ -80,7 +69,7 @@ namespace GraniteCore.EntityFrameworkCore
                 throw new ArgumentException("Could not find entity");
 
             // todo: changed to a soft delete.
-            DbContext.Set<TEntity>().Remove(entity);
+            DbContext.Set<TBaseEntityModel>().Remove(entity);
             await DbContext.SaveChangesAsync();
 
         }
@@ -88,9 +77,9 @@ namespace GraniteCore.EntityFrameworkCore
 
 
         #region Private & Protected methods
-        protected internal Task<TEntity> GetByIDIncludeProperties(
+        protected internal Task<TBaseEntityModel> GetByIDIncludeProperties(
             TPrimaryKey id,
-            params Expression<Func<TEntity, object>>[] includeProperties
+            params Expression<Func<TBaseEntityModel, object>>[] includeProperties
             )
         {
             return Task.Run(() =>
@@ -98,25 +87,25 @@ namespace GraniteCore.EntityFrameworkCore
                 if (includeProperties.Any())
                 {
                     var set = includeProperties
-                      .Aggregate<Expression<Func<TEntity, object>>, IQueryable<TEntity>>
-                        (DbContext.Set<TEntity>(), (current, expression) => current.Include(expression));
+                      .Aggregate<Expression<Func<TBaseEntityModel, object>>, IQueryable<TBaseEntityModel>>
+                        (DbContext.Set<TBaseEntityModel>(), (current, expression) => current.Include(expression));
 
                     return set.SingleOrDefault(s => s.ID.Equals(id));
                 }
 
-                return DbContext.Set<TEntity>().Find(id);
+                return DbContext.Set<TBaseEntityModel>().Find(id);
             });
         }
 
 
-        protected internal async Task<TEntity> SetEntityFieldsFromDto(TDtoModel dtoUpdated)
-        {
-            var entity = await DbContext.Set<TEntity>().SingleOrDefaultAsync(e => e.ID.Equals(dtoUpdated.ID));
-            if (entity == null)
-                throw new ArgumentNullException($"{dtoUpdated.GetType().Name} cannot be found in the database. DtoModel ID: {dtoUpdated.ID}");
+        //protected internal async Task<TBaseEntityModel> SetEntityFieldsFromUpdateModel(TBaseEntityModel updatedEntity)
+        //{
+        //    var entity = await DbContext.Set<TBaseEntityModel>().SingleOrDefaultAsync(e => e.ID.Equals(updatedEntity.ID));
+        //    if (entity == null)
+        //        throw new ArgumentNullException($"{updatedEntity.GetType().Name} cannot be found in the database. DtoModel ID: {updatedEntity.ID}");
 
-            return Mapper.Map(dtoUpdated, entity);
-        }
+        //    return Mapper.Map(updatedEntity, entity);
+        //}
 
         #endregion
     }

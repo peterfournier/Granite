@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 
 namespace GraniteCore
 {
-    public abstract class BaseService<TDtoModel, TEntity, TPrimaryKey> : IBaseService<TDtoModel, TEntity, TPrimaryKey>
-        where TDtoModel : IDto<TPrimaryKey>, new()
-        where TEntity : IBaseIdentityModel<TPrimaryKey>, new()
+    public abstract class BaseService<TBaseDomainModel, TBaseEntityModel, TPrimaryKey> : IBaseService<TBaseDomainModel, TBaseEntityModel, TPrimaryKey>
+                where TBaseDomainModel : IBaseIdentityModel<TPrimaryKey>, new()
+                where TBaseEntityModel : IEntity<TPrimaryKey>, new()
     {
-        protected virtual IBaseRepository<TDtoModel, TEntity, TPrimaryKey> Repository { get; private set; }
+        protected virtual IBaseRepository<TBaseEntityModel, TPrimaryKey> Repository { get; private set; }
         protected virtual IGraniteMapper Mapper { get; private set; }
 
         public BaseService(
-            IBaseRepository<TDtoModel, TEntity, TPrimaryKey> repository,
+            IBaseRepository<TBaseEntityModel, TPrimaryKey> repository,
             IGraniteMapper mapper
             )
         {
@@ -21,14 +21,16 @@ namespace GraniteCore
             Repository = repository;
         }
 
-        public virtual IQueryable<TDtoModel> GetAll()
+        public virtual IQueryable<TBaseDomainModel> GetAll()
         {
-            return Repository.GetAll();
+            return Mapper.Map<TBaseEntityModel, TBaseDomainModel>(Repository.GetAll());
         }
 
-        public virtual Task<TDtoModel> Create(TDtoModel dtoModel)
+        public async virtual Task<TBaseDomainModel> Create(TBaseDomainModel domainModel)
         {
-            return Repository.Create(dtoModel);
+            var entity = Mapper.Map<TBaseDomainModel, TBaseEntityModel>(domainModel);
+
+            return Mapper.Map<TBaseEntityModel, TBaseDomainModel>(await Repository.Create(entity));
         }
 
         public virtual Task Delete(TPrimaryKey id)
@@ -36,24 +38,26 @@ namespace GraniteCore
             return Repository.Delete(id);
         }
 
-        public virtual Task Update(TPrimaryKey id, TDtoModel dtoModel)
+        public virtual Task Update(TPrimaryKey id, TBaseDomainModel domainModel)
         {
-            return Repository.Update(id, dtoModel);
+            var entity = Mapper.Map<TBaseDomainModel, TBaseEntityModel>(domainModel);
+
+            return Repository.Update(id, entity);
         }
 
-        public virtual Task<TDtoModel> GetByID(
+        public async virtual Task<TBaseDomainModel> GetByID(
             TPrimaryKey id
             )
         {
-            return Repository.GetByID(id);
+            return Mapper.Map<TBaseEntityModel, TBaseDomainModel>(await Repository.GetByID(id));
         }
 
-        public virtual Task<TDtoModel> GetByID(
+        public async virtual Task<TBaseDomainModel> GetByID(
             TPrimaryKey id,
-            params Expression<Func<TEntity, object>>[] includeProperties
+            params Expression<Func<TBaseEntityModel, object>>[] includeProperties
             )
         {
-            return Repository.GetByID(id, includeProperties);
+            return Mapper.Map<TBaseEntityModel, TBaseDomainModel>(await Repository.GetByID(id, includeProperties));
         }
     }
 }

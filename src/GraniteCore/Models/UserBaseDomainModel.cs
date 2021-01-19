@@ -2,7 +2,7 @@
 
 namespace GraniteCore
 {
-    public abstract class UserBasedModel<TPrimaryKey, TUser, TUserPrimaryKey> : BaseModel<TPrimaryKey>, IUserBasedModel<TPrimaryKey, TUser, TUserPrimaryKey>
+    public abstract class UserBaseDomainModel<TPrimaryKey, TUser, TUserPrimaryKey> : BaseDomainModel<TPrimaryKey>, IUserBasedDomainModel<TPrimaryKey, TUser, TUserPrimaryKey>
         where TUser : IBaseApplicationUser<TUserPrimaryKey>
     {
         public virtual TUserPrimaryKey CreatedByUserID { get; set; }

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace MyCars.Domain.Models
+namespace MyCars.Domain.Entities
 {
     [Table("AspNetUsers")] // Mapping to the AspNetCoreIdentity Schema
     public class ApplicationUser : BaseApplicationUser<string>

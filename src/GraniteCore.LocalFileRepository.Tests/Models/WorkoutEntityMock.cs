@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GraniteCore.LocalFileRepository.IntegrationTests.Models
 {
-    class WorkoutEntityMock : GraniteCore.BaseModel<int>
+    class WorkoutEntityMock : GraniteCore.BaseDomainModel<int>
     {
         public string Name { get; set; }
         public string Description { get; set; }

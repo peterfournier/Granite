@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyCars.Areas.Identity;
 using MyCars.Areas.Identity.Data;
-using MyCars.Domain.Models;
-using System;
 
 namespace MyCars.Data
 {

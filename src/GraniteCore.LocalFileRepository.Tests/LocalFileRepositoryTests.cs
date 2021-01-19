@@ -8,7 +8,7 @@ namespace GraniteCore.LocalFileRepository.IntegrationTests
 {
     public class LocalFileRepositoryTests
     {
-        private Workout workoutDTO;
+        private WorkoutEntityMock workoutEntity;
         private int workoutIdentity;
 
         [SetUp]
@@ -18,7 +18,7 @@ namespace GraniteCore.LocalFileRepository.IntegrationTests
             if (workoutIdentity < 0)
                 workoutIdentity = workoutIdentity * -1;
 
-            workoutDTO = new Workout()
+            workoutEntity = new WorkoutEntityMock()
             {
                 Name = "Master Class",
                 Description = "You are you own Gym workout",
@@ -31,7 +31,7 @@ namespace GraniteCore.LocalFileRepository.IntegrationTests
         {
             var repository = createDefaultLocalRepo();
 
-            var success = await repository.Create(workoutDTO);
+            var success = await repository.Create(workoutEntity);
 
             Assert.IsNotNull(success);
         }
@@ -51,7 +51,7 @@ namespace GraniteCore.LocalFileRepository.IntegrationTests
         {
             var repository = createDefaultLocalRepo();
 
-            await repository.Create(workoutDTO);
+            await repository.Create(workoutEntity);
 
             var result = await repository.GetByID(workoutIdentity);
             Assert.AreEqual(workoutIdentity, result.ID);
@@ -61,13 +61,13 @@ namespace GraniteCore.LocalFileRepository.IntegrationTests
         public async Task Update_WithValidObject_UpdatesObject()
         {
             var repository = createDefaultLocalRepo();
-            var toUpdate = await repository.Create(workoutDTO);
+            var toUpdate = await repository.Create(workoutEntity);
             string newWorkoutName = "Basic Class";
             toUpdate.Name = newWorkoutName;
 
             await repository.Update(toUpdate.ID, toUpdate);
 
-            var result = await repository.GetByID(workoutDTO.ID);
+            var result = await repository.GetByID(workoutEntity.ID);
             Assert.AreEqual(newWorkoutName, result.Name);
         }
 
@@ -75,17 +75,17 @@ namespace GraniteCore.LocalFileRepository.IntegrationTests
         public async Task Remove_WithValidObject_UpdatesObject()
         {
             var repository = createDefaultLocalRepo();
-            var workout = await repository.Create(workoutDTO);
+            var workout = await repository.Create(workoutEntity);
 
             await repository.Delete(workout.ID);
 
-            var result = await repository.GetByID(workoutDTO.ID);
+            var result = await repository.GetByID(workoutEntity.ID);
             Assert.IsNull(result);
         }
 
-        private static LocalFileRepository<Workout, WorkoutEntityMock, int> createDefaultLocalRepo()
+        private static LocalFileRepository<WorkoutEntityMock, int> createDefaultLocalRepo()
         {
-            return new LocalFileRepository<Workout, WorkoutEntityMock, int>();
+            return new LocalFileRepository<WorkoutEntityMock, int>();
         }
     }
 }

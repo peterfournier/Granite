@@ -1,10 +1,10 @@
 ﻿using System;
 using GraniteCore;
 
-namespace MyCars.Domain.Models
+namespace MyCars.Domain.Entities
 {
     // GraniteCore install
-    public class CustomerEntity : UserBasedModel<Guid, ApplicationUser, string>
+    public class CustomerEntity : UserBasedEntityModel<Guid, ApplicationUser, string>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

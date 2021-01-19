@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using GraniteCore;
 
-namespace MyCars.Domain.Models
+namespace MyCars.Domain.Entities
 {
-    public class CarEntity : BaseModel<Guid>
+    public class CarEntity : BaseEntityModel<Guid>
     {
         public int Year { get; set; }
         public string ColorHex { get; set; }
@@ -13,7 +13,7 @@ namespace MyCars.Domain.Models
 
         public CarEntity()
         {
-            ID = Guid.NewGuid();
+            //ID = Guid.NewGuid();
         }
     }
 }

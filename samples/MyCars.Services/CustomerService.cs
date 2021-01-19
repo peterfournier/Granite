@@ -1,15 +1,15 @@
 ﻿using System;
 using GraniteCore;
-using MyCars.Domain.DTOs;
-using MyCars.Domain.Models;
+using MyCars.Domain;
+using MyCars.Domain.Entities;
 
 namespace MyCars.Services
 {
     // GraniteCore install
-    public class CustomerService : UserBasedService<CustomerDTO, CustomerEntity, Guid, string>, ICustomerService
+    public class CustomerService : UserBasedService<Customer, CustomerEntity, Guid, string>, ICustomerService
     {
         public CustomerService(
-            IUserBasedRepository<CustomerDTO, CustomerEntity, Guid, string> repository, 
+            IUserBasedRepository<CustomerEntity, Guid, string> repository, 
             IGraniteMapper mapper) 
             : base(repository, mapper)
         {

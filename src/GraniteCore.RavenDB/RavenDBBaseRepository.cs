@@ -7,12 +7,10 @@ using Raven.Client.Documents.Session;
 
 namespace GraniteCore.RavenDB
 {
-    public class RavenDBBaseRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> : IBaseRepository<TDtoModel, TEntity, TPrimaryKey>
-        where TDtoModel : class, IDto<TPrimaryKey>, new()
-        where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
+    public class RavenDBBaseRepository<TBaseEntityModel, TPrimaryKey, TUserPrimaryKey> : IBaseRepository<TBaseEntityModel, TPrimaryKey>
+        where TBaseEntityModel : class, IBaseIdentityModel<TPrimaryKey>, new()
     {
         protected IDocumentStore Store { get; }
-        protected IGraniteMapper Mapper { get; }
 
         protected readonly IDocumentSession Session; // Playing with this idea
 
@@ -20,12 +18,9 @@ namespace GraniteCore.RavenDB
 
         #endregion
         public RavenDBBaseRepository(
-            IDocumentStore store,
-            IGraniteMapper mapper
-            )
+            IDocumentStore store)
         {
             Store = store;
-            Mapper = mapper;
 
             // Opening sessions per instance
             // should be scoped anyway
@@ -42,33 +37,33 @@ namespace GraniteCore.RavenDB
         //}
 
         #region Public CRUD methods
-        public virtual IQueryable<TDtoModel> GetAll()
+        public virtual IQueryable<TBaseEntityModel> GetAll()
         {
-            var set = Session.Advanced.DocumentQuery<TEntity>()
+            var set = Session.Advanced.DocumentQuery<TBaseEntityModel>()
                             .ToQueryable()
                             ;
 
-            return Mapper.Map<TEntity, TDtoModel>(set);
+            return set;
         }
 
-        public virtual async Task<TDtoModel> GetByID(
+        public virtual async Task<TBaseEntityModel> GetByID(
             TPrimaryKey id
             )
         {
             var entity = await getByID(id);
-            return Mapper.Map<TEntity, TDtoModel>(entity);
+            return entity;
         }
 
-        public virtual async Task<TDtoModel> GetByID(
+        public virtual async Task<TBaseEntityModel> GetByID(
             TPrimaryKey id,
-            params Expression<Func<TEntity, object>>[] includeProperties
+            params Expression<Func<TBaseEntityModel, object>>[] includeProperties
             )
         {
             var entity = await getByID(id, includeProperties);
-            return Mapper.Map<TEntity, TDtoModel>(entity);
+            return entity;
         }
 
-        public virtual Task<TDtoModel> Create(TDtoModel dtoModel)
+        public virtual Task<TBaseEntityModel> Create(TBaseEntityModel entityModel)
         {
             return Task.Run(() =>
             {
@@ -76,14 +71,12 @@ namespace GraniteCore.RavenDB
                 //if (userID == null)
                 //    throw new ArgumentException("CreatedBy is not set");
 
-                if (dtoModel == null)
-                    throw new ArgumentException("DtoModel is not set");
+                if (entityModel == null)
+                    throw new ArgumentException("entityModel is not set");
 
-                var entity = new TEntity();
+                
 
-                Mapper.Map(dtoModel, entity);
-
-                //if (dtoModel is IUserBasedDto<TPrimaryKey, TUserPrimaryKey> userBasedtoUpdated)
+                //if (entityModel is IUserBasedDto<TPrimaryKey, TUserPrimaryKey> userBasedtoUpdated)
                 //{
                 //    setCreatedFields(userBasedtoUpdated, userID);
                 //    setLastUpdatedFields(userBasedtoUpdated, userID);
@@ -95,16 +88,16 @@ namespace GraniteCore.RavenDB
                 //    setLastUpdatedFields(userBaseEntity, userID);
                 //}
 
-                Session.Store(entity, entity.ID.ToString());
+                Session.Store(entityModel, entityModel.ID.ToString());
                 Session.SaveChanges();
 
-                dtoModel.ID = entity.ID;
+                entityModel.ID = entityModel.ID;
 
-                return dtoModel;
+                return entityModel;
             });
         }
 
-        public async virtual Task Update(TPrimaryKey id, TDtoModel dtoUpdated)
+        public async virtual Task Update(TPrimaryKey id, TBaseEntityModel dtoUpdated)
         {
             //if (dtoUpdated is IUserBasedDto<TPrimaryKey, TUserPrimaryKey> userBasedtoUpdated)
             //    setLastUpdatedFields(userBasedtoUpdated, userID);
@@ -135,27 +128,27 @@ namespace GraniteCore.RavenDB
 
 
         #region Private methods
-        private Task<TEntity> getByID(
+        private Task<TBaseEntityModel> getByID(
             TPrimaryKey id,
-            params Expression<Func<TEntity, object>>[] includeProperties
+            params Expression<Func<TBaseEntityModel, object>>[] includeProperties
             )
         {
             return Task.Run(() =>
             {
                 if (includeProperties.Any())
                 {
-                    var set = includeProperties.Aggregate<Expression<Func<TEntity, object>>, IQueryable<TEntity>>
-                        (Session.Advanced.DocumentQuery<TEntity>().ToQueryable(),
+                    var set = includeProperties.Aggregate<Expression<Func<TBaseEntityModel, object>>, IQueryable<TBaseEntityModel>>
+                        (Session.Advanced.DocumentQuery<TBaseEntityModel>().ToQueryable(),
                             (current, expression) => current.Include(expression));
 
                     return set.SingleOrDefault(s => s.ID.Equals(id));
                 }
 
-                return Session.Load<TEntity>(id?.ToString());
+                return Session.Load<TBaseEntityModel>(id?.ToString());
             });
         }
 
-        private void ignoreFieldsWhenUpdating(TEntity entity)
+        private void ignoreFieldsWhenUpdating(TBaseEntityModel entity)
         {
             //if (entity is IUserBasedModel<TPrimaryKey, TUserPrimaryKey> userBaseEntity)
             //{
@@ -189,15 +182,15 @@ namespace GraniteCore.RavenDB
         //    model.LastModifiedByUserID = userID;
         //}
 
-        private Task<TEntity> setEntityFieldsFromDto(TDtoModel dtoUpdated)
+        private Task<TBaseEntityModel> setEntityFieldsFromDto(TBaseEntityModel entityToUpdate)
         {
             return Task.Run(() =>
             {
-                var entity = Session.Load<TEntity>(dtoUpdated.ID?.ToString());
+                var entity = Session.Load<TBaseEntityModel>(entityToUpdate.ID?.ToString());
                 if (entity == null)
-                    throw new ArgumentNullException($"{dtoUpdated.GetType().Name} cannot be found in the database. DtoModel ID: {dtoUpdated.ID}");
+                    throw new ArgumentNullException($"{entityToUpdate.GetType().Name} cannot be found in the database. entityModel ID: {entityToUpdate.ID}");
 
-                return Mapper.Map(dtoUpdated, entity);
+                return entity;
             });
         }
         #endregion

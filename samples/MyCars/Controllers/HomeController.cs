@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyCars.Domain.Models;
+using MyCars.Domain.ViewModels;
 
 namespace MyCars.Controllers
 {

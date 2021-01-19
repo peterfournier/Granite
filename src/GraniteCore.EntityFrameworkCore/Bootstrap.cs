@@ -6,8 +6,8 @@ namespace GraniteCore.EntityFrameworkCore
     {
         public static void AddGraniteEntityFrameworkCore(this IServiceCollection services)
         {
-            services.AddScoped(typeof(IBaseRepository<,,>), typeof(BaseRepository<,,>));
-            services.AddScoped(typeof(IUserBasedRepository<,,,>), typeof(UserBasedRepository<,,,>));
+            services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
+            services.AddScoped(typeof(IUserBasedRepository<,,>), typeof(UserBasedRepository<,,>));
         }
     }
 }

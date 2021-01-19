@@ -2,7 +2,7 @@
 
 namespace GraniteCore
 {
-    public abstract class UserBasedDto<TPrimaryKey, TUser, TUserPrimaryKey> : BaseDto<TPrimaryKey>, IUserBasedDto<TPrimaryKey, TUser, TUserPrimaryKey>
+    public abstract class UserBasedEntityModel<TPrimaryKey, TUser, TUserPrimaryKey> : BaseEntityModel<TPrimaryKey>, IUserBasedEntityModel<TPrimaryKey, TUser, TUserPrimaryKey>
         where TUser : IBaseApplicationUser<TUserPrimaryKey>
     {
         public TUserPrimaryKey CreatedByUserID { get; set; }
@@ -14,7 +14,7 @@ namespace GraniteCore
         public virtual TUser CreatedByUser { get; set; }
         public virtual TUser LastModifiedByUser { get; set; }
 
-        public UserBasedDto()
+        public UserBasedEntityModel()
         {
 
         }

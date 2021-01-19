@@ -9,8 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MyCars.Areas.Identity;
-using MyCars.Domain.DTOs;
-using MyCars.Domain.Models;
+using MyCars.Domain;
 using MyCars.Domain.ViewModels;
 using MyCars.Services;
 
@@ -35,7 +34,7 @@ namespace MyCars.Controllers
         public async Task<IActionResult> Index()
         {
             Logger.LogInformation("************** Loading customer index");
-            var customers = GraniteMapper.Map<CustomerDTO, CustomerViewModel>(_customerService.GetAll()).ToList();
+            var customers = GraniteMapper.Map<Customer, CustomerViewModel>(_customerService.GetAll()).ToList();
             return View(customers);
             //return View(new List<CustomerViewModel>());
         }
@@ -58,7 +57,7 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            return View(GraniteMapper.Map<CustomerDTO,CustomerViewModel>(customerViewModel));
+            return View(GraniteMapper.Map<Customer,CustomerViewModel>(customerViewModel));
         }
 
         // GET: Customers/Create
@@ -76,7 +75,7 @@ namespace MyCars.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _customerService.Create(GraniteMapper.Map<CustomerViewModel,CustomerDTO>(customerViewModel));
+                await _customerService.Create(GraniteMapper.Map<CustomerViewModel,Customer>(customerViewModel));
 
                 return RedirectToAction(nameof(Index));
             }
@@ -96,7 +95,7 @@ namespace MyCars.Controllers
             {
                 return NotFound();
             }
-            return View(GraniteMapper.Map<CustomerDTO, CustomerViewModel>(customerViewModel));
+            return View(GraniteMapper.Map<Customer, CustomerViewModel>(customerViewModel));
         }
 
         // POST: Customers/Edit/5
@@ -115,7 +114,7 @@ namespace MyCars.Controllers
             {
                 try
                 {
-                    await _customerService.Update(id, GraniteMapper.Map<CustomerViewModel, CustomerDTO>(customerViewModel));
+                    await _customerService.Update(id, GraniteMapper.Map<CustomerViewModel, Customer>(customerViewModel));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -148,7 +147,7 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            return View(GraniteMapper.Map<CustomerDTO, CustomerViewModel>(customerViewModel));
+            return View(GraniteMapper.Map<Customer, CustomerViewModel>(customerViewModel));
         }
 
         // POST: Customers/Delete/5

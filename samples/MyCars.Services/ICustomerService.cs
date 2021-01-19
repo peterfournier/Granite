@@ -1,13 +1,13 @@
 ﻿using GraniteCore;
 using GraniteCore.Services;
-using MyCars.Domain.DTOs;
-using MyCars.Domain.Models;
+using MyCars.Domain;
+using MyCars.Domain.Entities;
 using System;
 
 namespace MyCars.Services
 {
     // GraniteCore install
-    public interface ICustomerService : IBaseService<CustomerDTO, CustomerEntity, Guid>, IUserModifierService<string>
+    public interface ICustomerService : IBaseService<Customer, CustomerEntity, Guid>, IUserModifierService<string>
     {
     }
 }

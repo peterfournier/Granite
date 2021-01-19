@@ -5,13 +5,13 @@
     <Authors>Peter Fournier</Authors>
     <Company>Software Vets, Inc</Company>
     <Description>MVC support for GraniteCore</Description>
-    <Copyright></Copyright>
+    <Copyright>Copyright 2021</Copyright>
     <PackageLicenseUrl>https://github.com/peterfournier/Granite/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/peterfournier/Granite</PackageProjectUrl>
     <RepositoryUrl>https://github.com/peterfournier/Granite</RepositoryUrl>
     <PackageTags>.NETCore AspNetCore MVC boilerplate MVC</PackageTags>
-    <PackageReleaseNotes>Added a new contructor for a UserBasedController that accepts a collection of services that required a User</PackageReleaseNotes>
-    <Version>2.2.1-alpha</Version>
+    <PackageReleaseNotes>.Net standard 2.1, .netcore 3.1.11 support</PackageReleaseNotes>
+    <Version>3.0.0-alpha</Version>
     <PackageIconUrl>https://imgur.com/le5T8go.png</PackageIconUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <OutputPath>C:\Projects\Local Nuget</OutputPath>

@@ -2,7 +2,7 @@
 
 namespace GraniteCore
 {
-    public abstract class BaseModel<TPrimaryKey> : IBaseIdentityModel<TPrimaryKey>
+    public abstract class BaseDomainModel<TPrimaryKey> : IBaseIdentityModel<TPrimaryKey>
     {
         private TPrimaryKey _id;
 

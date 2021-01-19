@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace GraniteCore.MVC.Controllers
 {
@@ -41,15 +42,14 @@ namespace GraniteCore.MVC.Controllers
             UserModifierServices = userModifierServices;
         }
 
-        public async override void OnActionExecuting(ActionExecutingContext context)
+        public async override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-
             var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
             ApplicationUser = await UserManager.FindByIdAsync(userId); // todo enable sessions
 
             if (ApplicationUser != null) setServicesUser();
 
-            base.OnActionExecuting(context);
+            await base.OnActionExecutionAsync(context, next);
         }
 
         private void setServicesUser()

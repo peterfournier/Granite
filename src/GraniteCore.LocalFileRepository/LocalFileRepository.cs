@@ -9,23 +9,22 @@ using Newtonsoft.Json;
 
 namespace GraniteCore.LocalFileRepository
 {
-    public class LocalFileRepository<TDtoModel, TEntity, TPrimaryKey> : IBaseRepository<TDtoModel, TEntity, TPrimaryKey>
-        where TDtoModel : IDto<TPrimaryKey>, new()
-        where TEntity : class, IBaseIdentityModel<TPrimaryKey>, new()
+    public class LocalFileRepository<TBaseEntityModel, TPrimaryKey> : IBaseRepository<TBaseEntityModel, TPrimaryKey>
+        where TBaseEntityModel : class, IBaseIdentityModel<TPrimaryKey>, new()
     {
         private string _fileName = "data-sv-builder.txt";
         private readonly string _appName;
 
         public LocalFileRepository()
         {
-            _appName = typeof(LocalFileRepository<,,>).Assembly.FullName;
+            _appName = typeof(LocalFileRepository<,>).Assembly.FullName;
         }
 
         #region IRepository
 
-        public virtual IQueryable<TDtoModel> GetAll()
+        public virtual IQueryable<TBaseEntityModel> GetAll()
         {
-            ICollection<TDtoModel> collection = new List<TDtoModel>();
+            ICollection<TBaseEntityModel> collection = new List<TBaseEntityModel>();
             try
             {
                 using (StreamReader sr = getStreamReaderForFileLocalFile())
@@ -34,7 +33,7 @@ namespace GraniteCore.LocalFileRepository
 
                     while (line != null)
                     {
-                        var model = JsonConvert.DeserializeObject<TDtoModel>(line);
+                        var model = JsonConvert.DeserializeObject<TBaseEntityModel>(line);
 
                         collection.Add(model);
 
@@ -50,7 +49,7 @@ namespace GraniteCore.LocalFileRepository
             }
         }
 
-        public virtual Task<TDtoModel> Create(TDtoModel dtoModel)
+        public virtual Task<TBaseEntityModel> Create(TBaseEntityModel entityModel)
         {
             return Task.Run(() =>
             {
@@ -59,15 +58,15 @@ namespace GraniteCore.LocalFileRepository
                     var filePath = getFilePath();
                     using (StreamWriter outputFile = new StreamWriter(filePath, append: true))
                     {
-                        var json = JsonConvert.SerializeObject(dtoModel);
+                        var json = JsonConvert.SerializeObject(entityModel);
                         outputFile.WriteLine(json);
                     }
-                    return dtoModel;
+                    return entityModel;
                 }
                 catch (Exception)
                 {
                     // todo
-                    return dtoModel;
+                    return entityModel;
                 }
             });
         }
@@ -100,7 +99,7 @@ namespace GraniteCore.LocalFileRepository
             }
         }
 
-        public async virtual Task Update(TPrimaryKey id, TDtoModel dtoModel)
+        public async virtual Task Update(TPrimaryKey id, TBaseEntityModel entityModel)
         {
             try
             {
@@ -108,7 +107,7 @@ namespace GraniteCore.LocalFileRepository
 
                 string file = File.ReadAllText(getFilePath());
 
-                file = file.Replace(JsonConvert.SerializeObject(entity), JsonConvert.SerializeObject(dtoModel));
+                file = file.Replace(JsonConvert.SerializeObject(entity), JsonConvert.SerializeObject(entityModel));
 
                 File.WriteAllText(getFilePath(), file);
 
@@ -119,11 +118,11 @@ namespace GraniteCore.LocalFileRepository
             }
         }
 
-        public virtual Task<TDtoModel> GetByID(TPrimaryKey id)
+        public virtual Task<TBaseEntityModel> GetByID(TPrimaryKey id)
         {
             return Task.Run(() =>
             {
-                TDtoModel entity = default(TDtoModel);
+                TBaseEntityModel entity = default(TBaseEntityModel);
                 try
                 {
                     using (StreamReader sr = getStreamReaderForFileLocalFile())
@@ -132,7 +131,7 @@ namespace GraniteCore.LocalFileRepository
 
                         while (line != null && entity == null)
                         {
-                            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<TDtoModel>(line);
+                            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<TBaseEntityModel>(line);
                             if (model != null && model.ID.Equals(id))
                                 entity = model;
 
@@ -148,7 +147,7 @@ namespace GraniteCore.LocalFileRepository
             });
         }
 
-        public Task<TDtoModel> GetByID(TPrimaryKey id, params Expression<Func<TEntity, object>>[] includeProperties)
+        public Task<TBaseEntityModel> GetByID(TPrimaryKey id, params Expression<Func<TBaseEntityModel, object>>[] includeProperties)
         {
             throw new NotImplementedException();
         }

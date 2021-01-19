@@ -2,16 +2,16 @@
 
 namespace GraniteCore
 {
-    public abstract class UserBasedService<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> : BaseService<TDtoModel, TEntity, TPrimaryKey>, IUserBaseService<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey>
-        where TDtoModel : IDto<TPrimaryKey>, new()
-        where TEntity : IBaseIdentityModel<TPrimaryKey>, new()        
+    public abstract class UserBasedService<TBaseDomainModel, TBaseEntityModel, TPrimaryKey, TUserPrimaryKey> : BaseService<TBaseDomainModel, TBaseEntityModel, TPrimaryKey>, IUserBaseService<TBaseDomainModel, TBaseEntityModel, TPrimaryKey, TUserPrimaryKey>
+                where TBaseDomainModel : IBaseIdentityModel<TPrimaryKey>, new()
+                where TBaseEntityModel : IEntity<TPrimaryKey>, new()
     {
-        protected new virtual IUserBasedRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> Repository { get; private set; }
+        protected new virtual IUserBasedRepository<TBaseEntityModel, TPrimaryKey, TUserPrimaryKey> Repository { get; private set; }
 
         public IBaseApplicationUser<TUserPrimaryKey> User { get; private set; }
 
         public UserBasedService(
-            IUserBasedRepository<TDtoModel, TEntity, TPrimaryKey, TUserPrimaryKey> repository,
+            IUserBasedRepository<TBaseEntityModel, TPrimaryKey, TUserPrimaryKey> repository,
             IGraniteMapper mapper
             ) : base(repository, mapper)
         {
@@ -26,9 +26,11 @@ namespace GraniteCore
             }
         }
 
-        public new virtual Task<TDtoModel> Create(TDtoModel dtoModel)
+        public async new virtual Task<TBaseDomainModel> Create(TBaseDomainModel domainModel)
         {
-            return Repository.Create(dtoModel, User);
+            var entity = Mapper.Map<TBaseDomainModel, TBaseEntityModel>(domainModel);
+
+            return Mapper.Map<TBaseEntityModel, TBaseDomainModel>(await Repository.Create(entity, User));
         }
 
         public new virtual Task Delete(TPrimaryKey id)
@@ -36,9 +38,11 @@ namespace GraniteCore
             return Repository.Delete(id, User);
         }
 
-        public new virtual Task Update(TPrimaryKey id, TDtoModel dtoModel)
+        public new virtual Task Update(TPrimaryKey id, TBaseDomainModel domainModel)
         {
-            return Repository.Update(id, dtoModel, User);
+            var entity = Mapper.Map<TBaseDomainModel, TBaseEntityModel>(domainModel);
+
+            return Repository.Update(id, entity, User);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using GraniteCore;
 using GraniteCore.MVC.Controllers;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MyCars.Domain.DTOs;
+using MyCars.Domain;
 using MyCars.Domain.ViewModels;
 using MyCars.Services;
 
@@ -29,7 +30,10 @@ namespace MyCars.Controllers
         // GET: Cars
         public IActionResult Index()
         {
-            return View(_carService.GetTopCars(5));
+            var cars = _carService.GetTopCars(10);
+            
+            var viewModels = GraniteMapper.Map<Car, CarViewModel>(cars.AsQueryable());
+            return View(viewModels);
         }
 
         // GET: Cars/Details/5
@@ -46,7 +50,8 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            return View(carEntity);
+            var viewModel = GraniteMapper.Map<Car, CarViewModel>(carEntity);
+            return View(viewModel);
         }
 
         // GET: Cars/Create
@@ -64,7 +69,7 @@ namespace MyCars.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _carService.Create(GraniteMapper.Map<CarViewModel, CarDTO>(carViewModel));
+                await _carService.Create(GraniteMapper.Map<CarViewModel, Car>(carViewModel));
                 return RedirectToAction(nameof(Index));
             }
             return View(carViewModel);
@@ -83,7 +88,8 @@ namespace MyCars.Controllers
             {
                 return NotFound();
             }
-            return View(carEntity);
+            var viewModel = GraniteMapper.Map<Car, CarViewModel>(carEntity);
+            return View(viewModel);
         }
 
         // POST: Cars/Edit/5
@@ -102,7 +108,7 @@ namespace MyCars.Controllers
             {
                 try
                 {
-                    await _carService.Update(id, GraniteMapper.Map<CarViewModel, CarDTO>(carViewModel));
+                    await _carService.Update(id, GraniteMapper.Map<CarViewModel, Car>(carViewModel));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -134,7 +140,9 @@ namespace MyCars.Controllers
                 return NotFound();
             }
 
-            return View(carEntity);
+            var viewModel = GraniteMapper.Map<Car, CarViewModel>(carEntity);
+
+            return View(viewModel);
         }
 
         // POST: Cars/Delete/5

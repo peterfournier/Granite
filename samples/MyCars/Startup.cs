@@ -9,13 +9,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyCars.Areas.Identity;
 using MyCars.Data;
-using MyCars.Domain.DTOs;
-using MyCars.Domain.Models;
 using MyCars.Domain.ViewModels;
 using MyCars.Services;
 using Microsoft.Extensions.Hosting;
 using MyCars.ServerConfigs;
 using Microsoft.AspNetCore.Http;
+using MyCars.Domain.Entities;
+using MyCars.Domain;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyCars
 {
@@ -38,7 +39,16 @@ namespace MyCars
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            addIdentityServer(services);
+            addCookieAuthenication(services);
+
+            //services.AddAuthorization(options =>
+            //{
+            //    options.DefaultPolicy = new AuthorizationPolicyBuilder()
+            //      .RequireAuthenticatedUser()
+            //      .Build();
+            //});
+
+            //addIdentityServer(services);
 
             addGraniteCore(services);
         }
@@ -129,8 +139,9 @@ namespace MyCars
 
             app.UseRouting();
 
-            app.UseIdentityServer();
+            //app.UseIdentityServer();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -148,23 +159,23 @@ namespace MyCars
     {
         public static void CreateCarMapping(this IMapperConfigurationExpression config)
         {
-            config.CreateMap<CarViewModel, CarDTO>()
+            config.CreateMap<CarViewModel, Car>()
                     .ReverseMap()
                     ;
 
-            config.CreateMap<CarDTO, CarEntity>()
-                    .ForMember(x => x.ID, x => x.Ignore())
+            config.CreateMap<Car, CarEntity>()
+                    //.ForMember(x => x.ID, x => x.Ignore())
                     .ReverseMap()
                     ;
         }
 
         public static void CreateCustomerMapping(this IMapperConfigurationExpression config)
         {
-            config.CreateMap<CustomerViewModel, CustomerDTO>()
+            config.CreateMap<CustomerViewModel, Customer>()
                     .ReverseMap()
                     ;
 
-            config.CreateMap<CustomerDTO, CustomerEntity>()
+            config.CreateMap<Customer, CustomerEntity>()
                     .ReverseMap()
                     ;
         }

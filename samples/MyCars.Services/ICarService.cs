@@ -1,14 +1,14 @@
 ﻿using GraniteCore;
-using MyCars.Domain.DTOs;
-using MyCars.Domain.Models;
+using MyCars.Domain;
+using MyCars.Domain.Entities;
 using System;
 using System.Collections.Generic;
 
 namespace MyCars.Services
 {
     // GraniteCore install
-    public interface ICarService : IBaseService<CarDTO, CarEntity, Guid>
+    public interface ICarService : IBaseService<Car, CarEntity, Guid>
     {
-        IList<CarDTO> GetTopCars(int take = 5);
+        IList<Car> GetTopCars(int take = 5);
     }
 }

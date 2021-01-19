@@ -2,20 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>2.2.1-alpha</Version>
+    <Version>3.0.0-alpha</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/peterfournier/Granite</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/peterfournier/Granite/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/peterfournier/Granite</RepositoryUrl>
     <RepositoryType />
-    <PackageReleaseNotes>Added a method overload to the BaserService</PackageReleaseNotes>
+    <PackageReleaseNotes>.Net standard 2.1, .netcore 3.1.11 support</PackageReleaseNotes>
     <PackageIconUrl>https://i.imgur.com/tODd4nj.png</PackageIconUrl>
     <Description>.Net Core boilerplate and middle tier framework</Description>
-    <Copyright>Copyright 2019</Copyright>
+    <Copyright>Copyright 2021</Copyright>
     <PackageTags>.NETCore AspNetCore MVC boilerplate EntityFramework EntityFrameworkCore EFCore</PackageTags>
     <Authors>Peter Fournier</Authors>
     <Company>Software Vets, Inc</Company>
     <OutputPath>C:\Projects\Local Nuget</OutputPath>
+    <PackageId>GraniteCore</PackageId>
   </PropertyGroup>
 
 </Project>

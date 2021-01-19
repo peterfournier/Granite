@@ -2,17 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>2.2.1-alpha</Version>
+    <Version>3.0.0-alpha</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/peterfournier/Granite</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/peterfournier/Granite/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/peterfournier/Granite</RepositoryUrl>
     <Company>Software Vets, Inc</Company>
     <Authors>Peter Fournier</Authors>
-    <Copyright>Copyright 2019</Copyright>
+    <Copyright>Copyright 2021</Copyright>
     <Description>EntityFrameworkCore support for GraniteCore</Description>
     <PackageTags>.NETCore AspNetCore MVC boilerplate EntityFramework EntityFrameworkCore EFCore</PackageTags>
-    <PackageReleaseNotes>Updated a method signature</PackageReleaseNotes>
+    <PackageReleaseNotes>.Net standard 2.1, .netcore 3.1.11 support</PackageReleaseNotes>
     <PackageIconUrl>https://imgur.com/RMUx6mA.png</PackageIconUrl>
     <OutputPath>C:\Projects\Local Nuget</OutputPath>
   </PropertyGroup>

@@ -2,9 +2,9 @@
 using System;
 using System.Drawing;
 
-namespace MyCars.Domain.DTOs
+namespace MyCars.Domain
 {
-    public class CarDTO : BaseDto<Guid>
+    public class Car : BaseEntityModel<Guid>
     {
         public int Year { get; set; }
         public string ColorHex { get; set; }

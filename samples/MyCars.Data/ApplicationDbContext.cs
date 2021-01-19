@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyCars.Domain.Models;
+using MyCars.Domain.Entities;
 
 namespace MyCars.Data
 {
