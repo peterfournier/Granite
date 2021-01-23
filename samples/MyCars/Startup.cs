@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using MyCars.Domain.Entities;
 using MyCars.Domain;
 using Microsoft.AspNetCore.Authorization;
+using GraniteCore;
 
 namespace MyCars
 {
@@ -74,7 +75,7 @@ namespace MyCars
 
         private static void addAspNetIdentityWithGraniteCore(IServiceCollection services)
         {
-            services.AddDefaultIdentity<GraniteCoreApplicationUser>(
+            services.AddDefaultIdentity<ApplicationUser>(
                              // options => options.SignIn.RequireConfirmedAccount = false
                              )
                             .AddEntityFrameworkStores<AspNetCoreIdentityDbContext>();
@@ -86,7 +87,7 @@ namespace MyCars
                 .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
                 .AddInMemoryApiResources(IdentityServerConfig.ApiResources)
                 .AddInMemoryClients(IdentityServerConfig.Clients)
-                .AddAspNetIdentity<GraniteCoreApplicationUser>();
+                .AddAspNetIdentity<ApplicationUser>();
             ;
 
             builder.AddDeveloperSigningCredential();
@@ -182,7 +183,7 @@ namespace MyCars
 
         public static void CreateUserMapping(this IMapperConfigurationExpression config)
         {
-            config.CreateMap<ApplicationUser, UserViewModel>()
+            config.CreateMap<ApplicationUser, UserViewModel<string>>()
                     .ReverseMap()
                     ;
         }

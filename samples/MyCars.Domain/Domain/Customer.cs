@@ -3,7 +3,7 @@ using GraniteCore;
 
 namespace MyCars.Domain
 {
-    public class Customer : UserBaseDomainModel<Guid, IBaseApplicationUser<string>, string>
+    public class Customer : UserBaseDomainModel<Guid, IUser<string>, string>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

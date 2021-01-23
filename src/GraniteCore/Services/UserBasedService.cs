@@ -8,7 +8,7 @@ namespace GraniteCore
     {
         protected new virtual IUserBasedRepository<TBaseEntityModel, TPrimaryKey, TUserPrimaryKey> Repository { get; private set; }
 
-        public IBaseApplicationUser<TUserPrimaryKey> User { get; private set; }
+        public IUser<TUserPrimaryKey> User { get; private set; }
 
         public UserBasedService(
             IUserBasedRepository<TBaseEntityModel, TPrimaryKey, TUserPrimaryKey> repository,
@@ -18,7 +18,7 @@ namespace GraniteCore
             Repository = repository;
         }
 
-        public virtual void SetUser(IBaseApplicationUser<TUserPrimaryKey> user)
+        public virtual void SetUser(IUser<TUserPrimaryKey> user)
         {
             if (user != null)
             {

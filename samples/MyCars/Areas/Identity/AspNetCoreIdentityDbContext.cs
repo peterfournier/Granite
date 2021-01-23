@@ -6,7 +6,7 @@ using MyCars.Areas.Identity.Data;
 namespace MyCars.Data
 {
     // GraniteCore install <GraniteCoreApplicationUser, IdentityRole, string>
-    public class AspNetCoreIdentityDbContext : IdentityDbContext<GraniteCoreApplicationUser, ApplicationRole, string>
+    public class AspNetCoreIdentityDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         
         public AspNetCoreIdentityDbContext(DbContextOptions<AspNetCoreIdentityDbContext> options)

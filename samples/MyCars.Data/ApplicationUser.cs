@@ -1,14 +1,13 @@
 ﻿using GraniteCore;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MyCars.Areas.Identity
+namespace MyCars.Areas.Identity // changed namespace to save myself from fixing all the views in Identity
 {
     // GraniteCore install
     [Table("AspNetUsers")]
-    public class GraniteCoreApplicationUser : IdentityUser<string>, IBaseApplicationUser<string>
+    public class ApplicationUser : IdentityUser<string>, IUser<string>
     {
         [Required]
         [MaxLength(50)]
@@ -18,6 +17,7 @@ namespace MyCars.Areas.Identity
         [MaxLength(100)]
         public string LastName { get; set; }
 
+        [NotMapped]
         public string ID { get => base.Id; set => base.Id = value; }
     }
 }

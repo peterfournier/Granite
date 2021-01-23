@@ -16,7 +16,7 @@ using MyCars.Services;
 namespace MyCars.Controllers
 {
     [Authorize]
-    public class CustomersController : UserBasedController<CustomersController, GraniteCoreApplicationUser, string>
+    public class CustomersController : UserBasedController<CustomersController, ApplicationUser, string>
     {
         private readonly ICustomerService _customerService;
 
@@ -24,7 +24,7 @@ namespace MyCars.Controllers
             ICustomerService customerService,
             IGraniteMapper graniteMapper,
             ILogger<CustomersController> logger,
-            UserManager<GraniteCoreApplicationUser> userManager
+            UserManager<ApplicationUser> userManager
             ) : base(graniteMapper, logger, userManager, customerService)
         {
             _customerService = customerService;

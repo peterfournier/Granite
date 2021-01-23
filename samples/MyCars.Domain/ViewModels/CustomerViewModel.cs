@@ -1,10 +1,9 @@
 ﻿using GraniteCore;
-using MyCars.Domain.Entities;
 using System;
 
 namespace MyCars.Domain.ViewModels
 {
-    public class CustomerViewModel : UserBaseDomainModel<Guid, ApplicationUser, string>
+    public class CustomerViewModel : UserBaseDomainModel<Guid, IUser<string>, string>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

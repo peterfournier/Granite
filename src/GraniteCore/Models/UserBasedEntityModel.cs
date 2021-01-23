@@ -3,7 +3,7 @@
 namespace GraniteCore
 {
     public abstract class UserBasedEntityModel<TPrimaryKey, TUser, TUserPrimaryKey> : BaseEntityModel<TPrimaryKey>, IUserBasedEntityModel<TPrimaryKey, TUser, TUserPrimaryKey>
-        where TUser : IBaseApplicationUser<TUserPrimaryKey>
+        where TUser : class, IUser<TUserPrimaryKey>
     {
         public TUserPrimaryKey CreatedByUserID { get; set; }
         public TUserPrimaryKey LastModifiedByUserID { get; set; }

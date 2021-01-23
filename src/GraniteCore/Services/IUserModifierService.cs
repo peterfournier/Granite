@@ -2,7 +2,7 @@
 {
     public interface IUserModifierService<TUserPrimaryKey>
     {
-        IBaseApplicationUser<TUserPrimaryKey> User { get; }
-        void SetUser(IBaseApplicationUser<TUserPrimaryKey> user);
+        IUser<TUserPrimaryKey> User { get; }
+        void SetUser(IUser<TUserPrimaryKey> user);
     }
 }

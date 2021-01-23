@@ -1,8 +1,8 @@
 @using Microsoft.AspNetCore.Identity
 @using MyCars.Areas.Identity
 
-@inject SignInManager<GraniteCoreApplicationUser> SignInManager
-@inject UserManager<GraniteCoreApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

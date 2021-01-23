@@ -12,7 +12,7 @@ namespace GraniteCore.LocalFileRepository
     public class LocalFileRepository<TBaseEntityModel, TPrimaryKey> : IBaseRepository<TBaseEntityModel, TPrimaryKey>
         where TBaseEntityModel : class, IBaseIdentityModel<TPrimaryKey>, new()
     {
-        private string _fileName = "data-sv-builder.txt";
+        private string _fileName = $"data-{typeof(TBaseEntityModel)}.txt";
         private readonly string _appName;
 
         public LocalFileRepository()

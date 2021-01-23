@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyCars.Domain.Entities;
+using GraniteCore;
+using MyCars.Areas.Identity;
 
 namespace MyCars.Data
 {
-    // GraniteCore install <GraniteCoreApplicationUser, IdentityRole, string>
+    // GraniteCore install <ApplicationUser, IdentityRole, string>
     public class ApplicationDbContext : DbContext
     {
         public DbSet<CarEntity> Cars { get; set; }
@@ -18,6 +20,14 @@ namespace MyCars.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<ApplicationUser>()
+                .Property(x => x.Id)
+                .ValueGeneratedOnAdd();
+
+            builder.Entity<ApplicationUser>()
+                .HasKey(x => x.Id);
+
 
             builder.Entity<CustomerEntity>()
                 .HasOne(x => x.CreatedByUser as ApplicationUser);

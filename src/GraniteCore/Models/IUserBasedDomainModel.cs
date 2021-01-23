@@ -3,7 +3,7 @@
 namespace GraniteCore
 {
     public interface IUserBasedDomainModel<TPrimaryKey, TUser, TUserPrimaryKey> : IBaseIdentityModel<TPrimaryKey>
-        where TUser : IBaseApplicationUser<TUserPrimaryKey>
+        where TUser : class, IUser<TUserPrimaryKey>
     {
         TUserPrimaryKey CreatedByUserID { get; set; }
         TUserPrimaryKey LastModifiedByUserID { get; set; }

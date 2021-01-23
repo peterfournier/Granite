@@ -12,12 +12,12 @@ namespace MyCars.Areas.Identity.Pages.Account.Manage
 {
     public class SetPasswordModel : PageModel
     {
-        private readonly UserManager<GraniteCoreApplicationUser> _userManager;
-        private readonly SignInManager<GraniteCoreApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public SetPasswordModel(
-            UserManager<GraniteCoreApplicationUser> userManager,
-            SignInManager<GraniteCoreApplicationUser> signInManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

@@ -40,7 +40,7 @@
                 @Html.DisplayNameFor(model => model.CreatedByUser)
             </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.LastModifiedByUser.FullName)
+                @Html.DisplayNameFor(model => model.LastModifiedByUser.FirstName)
             </th>
             <th></th>
         </tr>
@@ -76,7 +76,7 @@
                 @Html.DisplayFor(modelItem => item.CreatedByUser.ID)
             </td>*@
             <td>
-                @*@Html.DisplayFor(modelItem => item.LastModifiedByUser.FullName)*@
+                @(item.LastModifiedByUser.FirstName + " " + item.LastModifiedByUser.LastName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

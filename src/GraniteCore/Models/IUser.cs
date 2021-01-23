@@ -1,7 +1,7 @@
 ﻿namespace GraniteCore
 {
-    public interface IBaseApplicationUser<TPrimaryKey> : IBaseIdentityModel<TPrimaryKey>
-    {        
+    public interface IUser<TPrimaryKey> : IBaseIdentityModel<TPrimaryKey>
+    {
         string FirstName { get; set; }
         string LastName { get; set; }
         string UserName { get; set; }

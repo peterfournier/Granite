@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 namespace GraniteCore.MVC.Controllers
 {
     public abstract class UserBasedController<TCategoryName, TUser, TUserPrimaryKey> : BaseController<TCategoryName>
-        where TUser : class, IBaseApplicationUser<TUserPrimaryKey>
+        where TUser : class, IUser<TUserPrimaryKey>
     {
         protected UserManager<TUser> UserManager { get; private set; }
 
-        protected IBaseApplicationUser<TUserPrimaryKey> ApplicationUser { get; private set; }
+        protected IUser<TUserPrimaryKey> ApplicationUser { get; private set; }
 
         [Obsolete]
         protected IUserModifierService<TUserPrimaryKey> UserModifierService { get; private set; }
